@@ -8,11 +8,13 @@ var mode = "dark";
 themeSwitcher.addEventListener("click", function () {
   if (mode === "dark") {
     mode = "light";
+    themeSwitcher.setAttribute("class", "switchBox");
     container.setAttribute("class", "light");
     header.setAttribute("class", "lightHeader");
     footer.setAttribute("class", "lightFooter");
   } else {
     mode = "dark";
+    themeSwitcher.setAttribute("class", "switchBoxChecked");
     container.setAttribute("class", "dark");
     header.setAttribute("class", "darkHeader");
     footer.setAttribute("class", "darkFooter");
