@@ -1,10 +1,7 @@
-var themeSwitcher = document.querySelector("#theme-switcher");
-var container = document.querySelector("body");
-var header = document.querySelector("#header");
-var footer = document.querySelector("#footer");
-var cityStart = document.getElementById("cityStart");
-var cityEnd = document.getElementById("cityEnd");
-var searchButton = document.getElementById("search");
+var themeSwitcher = $("#theme-switcher");
+var container = $("body");
+var header = $("#header");
+var footer = $("#footer");
 
 var mode = "dark";
 
@@ -66,7 +63,7 @@ function getCoords(event) {
 
 directions.on("route", getCoords);
 
-themeSwitcher.addEventListener("click", function () {
+themeSwitcher.on("click", function () {
   if (mode === "dark") {
     mode = "light";
     themeSwitcher.setAttribute("class", "switchBox");
