@@ -25,25 +25,23 @@ var directions = new MapboxDirections({
 map.addControl(directions, "top-right");
 
 function getCoords(event) {
-  console.log("ROUTE EVENT!");
   var steps = $(".mapbox-directions-step");
   var coordinates = [];
   for (var i = 0; i < steps.length; i++) {
-    console.log(steps[i]);
-    var coords = [steps[i].dataset.lng, steps[i].dataset.lat];
+    var coords = [steps[i].dataset.lat, steps[i].dataset.lng];
     coordinates.push(coords);
   }
-  //! MOVE STEPS TO OTHER CONTAINER
+  //! MOVE ROUTE STEPS TO OTHER CONTAINER
   console.log(coordinates);
-  // ?Sample coordinates
-  //weather api
 
-  //marker build
-
-  // Add markers to the map.
   for (var j = 0; j < coordinates.length; j++) {
-    console.log("woot array");
-    console.log(coordinates[j]);
+    /*
+    weather api
+
+    delay until weather retrieved for all coords
+    */
+    retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
+
     const el = document.createElement("div");
     const width = 40;
     const height = 40;
@@ -53,14 +51,34 @@ function getCoords(event) {
     el.style.backgroundSize = "100%";
 
     el.addEventListener("click", () => {
-      window.alert(marker.properties.message);
+      //code to render modal
     });
+    // Add markers to the map.
     new mapboxgl.Marker(el).setLngLat(coordinates[j]).addTo(map); //dynamically pass in coordinates  [-97.323982, 37.604087]
   }
 
   // approx location based on coords
 }
-
+function retrieveWeatherFromLocation(lat, lon) {
+  fetch(
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&appid=5a5f2543215b0ae09a5dc07887c20551&units=imperial"
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("weather data!");
+      console.log(data);
+      for (var i = 0; i < data.list.length; i++) {}
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 directions.on("route", getCoords);
 
 themeSwitcher.on("click", function () {
