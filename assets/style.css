@@ -113,32 +113,8 @@ label:active:after {
   transition: 0.4s;
 }
 
-.searchBar {
+#map {
   display: flex;
-  justify-content: center;
-  margin: 1%;
-}
-
-#card1 {
-  background-color: white;
-  width: 70%;
-  margin: 2%;
-  padding: 5%;
-  box-shadow: 1px 1px 4px 0px #acb5c0;
-}
-
-#card2 {
-  background-color: white;
-  width: 70%;
-  margin: 2%;
-  padding: 5%;
-  box-shadow: 1px 1px 4px 0px #acb5c0;
-}
-
-#card3 {
-  background-color: white;
-  width: 70%;
-  margin: 2%;
-  padding: 5%;
-  box-shadow: 1px 1px 4px 0px #acb5c0;
+  width: 100%;
+  height: 500px;
 }
