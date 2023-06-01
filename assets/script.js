@@ -71,7 +71,7 @@ function retrieveWeatherFromLocation(lat, lon) {
         //code to render modal
       });
       // Add markers to the map.
-      new mapboxgl.Marker(el).setLngLat(coordinates[j]).addTo(map);
+      new mapboxgl.Marker(el).setLngLat([lon, lat]).addTo(map);
     })
     .catch(function (error) {
       console.log(error);
