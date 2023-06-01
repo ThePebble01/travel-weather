@@ -78,10 +78,7 @@ function retrieveWeatherFromLocation(lat, lon) {
           data.list[0].wind.gust
         )
       );
-      el.addEventListener("click", (event) => {
-        console.log(event);
-        //code to render modal
-      });
+      el.addEventListener("click", placeholderModalCall);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
@@ -91,6 +88,9 @@ function retrieveWeatherFromLocation(lat, lon) {
     .catch(function (error) {
       console.log(error);
     });
+}
+function placeholderModalCall(event) {
+  console.log(event.target);
 }
 // TEMP SPOT
 var allWeatherData = new Map(); //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
