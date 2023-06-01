@@ -1,5 +1,5 @@
 var themeSwitcher = document.querySelector("#theme-switcher");
-var container = document.querySelector(".container");
+var container = document.querySelector("body");
 var header = document.querySelector("#header");
 var footer = document.querySelector("#footer");
 var cityStart = document.getElementById("cityStart");
