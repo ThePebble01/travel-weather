@@ -12,7 +12,7 @@ h1 {
 header {
   display: flex;
   align-items: center;
-  background-color:#1b2633;
+  background-color: #1b2633;
   color: #4f647d;
 }
 
@@ -24,9 +24,45 @@ footer {
 }
 
 .toggle {
-  border-style: outset;
-  width: 400px;
-  background-color: rgba(76, 175, 80, 0.15);
+  width: 90px;
+  height: 36px;
+  position: relative;
+  display: block;
+  background: #ebebeb;
+  border-radius: 36px;
+  box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4),
+    inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+label:after {
+  content: "";
+  width: 32.4px;
+  height: 32.4px;
+  position: absolute;
+  top: 1.8px;
+  left: 1.8px;
+  border-radius: 32.4px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.switchBox::after {
+  background: linear-gradient(180deg, #777, #3a3a3a);
+}
+
+.switchBoxChecked:after {
+  left: 88.2px;
+  transform: translateX(-100%);
+  background: linear-gradient(180deg, #ffcc89, #d8860b);
+}
+
+label,
+label:after {
+  transition: 0.3s;
+}
+
+label:active:after {
+  width: 50px;
 }
 
 .dark {
@@ -47,7 +83,7 @@ footer {
 
 .lightHeader {
   background-color: #dfd8c3;
-  color:#312f2e;
+  color: #312f2e;
 }
 
 .darkFooter {
@@ -66,14 +102,6 @@ footer {
   color: #312f2e;
 }
 
-.dark li a {
-  color: #bebebe;
-}
-
-.dark li a:hover {
-  background-color: #111;
-}
-
 .light {
   display: flex;
   flex-direction: column;
@@ -85,85 +113,10 @@ footer {
   transition: 0.4s;
 }
 
-.light li a {
-  color: black;
-}
-
-.light li a:hover {
-  background-color: rgb(29, 128, 210);
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #111;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: rgb(29, 128, 210);
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px rgb(29, 128, 210);
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
 .searchBar {
   display: flex;
   justify-content: center;
   margin: 1%;
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-.row {
-  margin: 0%;
-  display: flex;
-}
-.col {
-  margin: 20px;
 }
 
 #card1 {
