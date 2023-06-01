@@ -1,5 +1,4 @@
 body {
-  background-color: crimson;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 20px;
   color: rgb(0, 0, 0);
@@ -10,6 +9,20 @@ h1 {
   font-size: 50px;
 }
 
+header {
+  display: flex;
+  align-items: center;
+  background-color:#1b2633;
+  color: #4f647d;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  background-color: #1b2633;
+  color: #4f647d;
+}
+
 .toggle {
   border-style: outset;
   width: 400px;
@@ -17,9 +30,40 @@ h1 {
 }
 
 .dark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
   background-color: #243447;
-  height: 100vh;
-  color: #bebebe;
+  color: #9facb8;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.darkHeader {
+  background-color: #1b2633;
+  color: #4f647d;
+}
+
+.lightHeader {
+  background-color: #dfd8c3;
+  color:#312f2e;
+}
+
+.darkFooter {
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+  background-color: #1b2633;
+  color: #4f647d;
+}
+
+.lightFooter {
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+  background-color: #dfd8c3;
+  color: #312f2e;
 }
 
 .dark li a {
@@ -31,9 +75,14 @@ h1 {
 }
 
 .light {
-  background-color: #f0ead6;
-  color: black;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  background-color: #e9e3cf;
+  color: rgb(90, 81, 77);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .light li a {
@@ -95,6 +144,12 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+}
+
 .slider.round {
   border-radius: 34px;
 }
@@ -104,32 +159,33 @@ input:checked + .slider:before {
 }
 
 .row {
-  margin: 20px;
+  margin: 0%;
   display: flex;
 }
 .col {
   margin: 20px;
 }
 
-#container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: transparent;
-  margin: 5%;
-  padding: 5%;
-}
 #card1 {
-  margin: 5%;
+  background-color: white;
+  width: 70%;
+  margin: 2%;
   padding: 5%;
+  box-shadow: 1px 1px 4px 0px #acb5c0;
 }
 
 #card2 {
-  margin: 5%;
+  background-color: white;
+  width: 70%;
+  margin: 2%;
   padding: 5%;
+  box-shadow: 1px 1px 4px 0px #acb5c0;
 }
 
 #card3 {
-  margin: 5%;
+  background-color: white;
+  width: 70%;
+  margin: 2%;
   padding: 5%;
+  box-shadow: 1px 1px 4px 0px #acb5c0;
 }
