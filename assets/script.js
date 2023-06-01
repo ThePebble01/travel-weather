@@ -28,8 +28,8 @@ function getCoords(event) {
   var steps = $(".mapbox-directions-step");
   var coordinates = [];
   for (var i = 0; i < steps.length; i++) {
-    var coords = [steps[i].dataset.lat, steps[i].dataset.lng];
-    coordinates.push(coords);
+    //filter coords
+    coordinates.push([steps[i].dataset.lat, steps[i].dataset.lng]);
   }
   //! MOVE ROUTE STEPS TO OTHER CONTAINER
   console.log(coordinates);
@@ -41,20 +41,6 @@ function getCoords(event) {
     delay until weather retrieved for all coords
     */
     retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
-
-    const el = document.createElement("div");
-    const width = 40;
-    const height = 40;
-    el.style.backgroundImage = `url(https://placekitten.com/g/${width}/${height}/)`; //images local; dependent on weather desc
-    el.style.width = `${width}px`;
-    el.style.height = `${height}px`;
-    el.style.backgroundSize = "100%";
-
-    el.addEventListener("click", () => {
-      //code to render modal
-    });
-    // Add markers to the map.
-    new mapboxgl.Marker(el).setLngLat(coordinates[j]).addTo(map); //dynamically pass in coordinates  [-97.323982, 37.604087]
   }
 
   // approx location based on coords
@@ -72,8 +58,20 @@ function retrieveWeatherFromLocation(lat, lon) {
     })
     .then(function (data) {
       console.log("weather data!");
-      console.log(data);
-      for (var i = 0; i < data.list.length; i++) {}
+      console.log(data.list[0]);
+      const el = document.createElement("div");
+      const width = 40;
+      const height = 40;
+      el.style.backgroundImage = `url(https://placekitten.com/g/${width}/${height}/)`; //images local; dependent on weather desc
+      el.style.width = `${width}px`;
+      el.style.height = `${height}px`;
+      el.style.backgroundSize = "100%";
+
+      el.addEventListener("click", () => {
+        //code to render modal
+      });
+      // Add markers to the map.
+      new mapboxgl.Marker(el).setLngLat(coordinates[j]).addTo(map);
     })
     .catch(function (error) {
       console.log(error);
@@ -84,15 +82,15 @@ directions.on("route", getCoords);
 themeSwitcher.on("click", function () {
   if (mode === "dark") {
     mode = "light";
-    themeSwitcher.setAttribute("class", "switchBox");
-    container.setAttribute("class", "light");
-    header.setAttribute("class", "lightHeader");
-    footer.setAttribute("class", "lightFooter");
+    themeSwitcher.attr("class", "switchBox");
+    container.attr("class", "light");
+    header.attr("class", "lightHeader");
+    footer.attr("class", "lightFooter");
   } else {
     mode = "dark";
-    themeSwitcher.setAttribute("class", "switchBoxChecked");
-    container.setAttribute("class", "dark");
-    header.setAttribute("class", "darkHeader");
-    footer.setAttribute("class", "darkFooter");
+    themeSwitcher.attr("class", "switchBoxChecked");
+    container.attr("class", "dark");
+    header.attr("class", "darkHeader");
+    footer.attr("class", "darkFooter");
   }
 });
