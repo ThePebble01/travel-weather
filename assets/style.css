@@ -166,6 +166,7 @@ label:active:after {
   width: 60vw;
   height: 72vh;
   margin-left: 3%;
+  position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
 }
@@ -174,6 +175,7 @@ label:active:after {
   width: 60vw;
   height: 72vh;
   margin-left: 3%;
+  position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
