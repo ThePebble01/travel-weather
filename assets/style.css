@@ -1,7 +1,8 @@
 body {
+  background-color: #1d1b1b;
+  color: #9facb8;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 20px;
-  color: rgb(0, 0, 0);
 }
 
 h1 {
@@ -12,15 +13,30 @@ h1 {
 header {
   display: flex;
   align-items: center;
-  background-color: #1b2633;
-  color: #4f647d;
+  background: radial-gradient(
+    circle,
+    rgba(41, 41, 41, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  color: #bfbfbf;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
+  margin-bottom: 2%;
+  margin-top: 1%;
 }
 
 footer {
   display: flex;
   justify-content: center;
-  background-color: #1b2633;
-  color: #4f647d;
+  background: radial-gradient(
+    circle,
+    rgba(41, 41, 41, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  color: #bfbfbf;
+  margin-top: 2%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
 .toggle {
@@ -66,85 +82,121 @@ label:active:after {
 }
 
 .dark {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100%;
-  background-color: #243447;
-  color: #9facb8;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 .darkHeader {
-  background-color: #1b2633;
-  color: #4f647d;
+  background: radial-gradient(
+    circle,
+    rgba(41, 41, 41, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  color: #bfbfbf;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
 .lightHeader {
-  background-color: #dfd8c3;
-  color: #312f2e;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(252, 226, 255, 1) 100%
+  );
+  color: #484b6a;
+  box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
 }
 
 .darkFooter {
   display: flex;
   justify-content: center;
   padding: 2%;
-  background-color: #1b2633;
-  color: #4f647d;
+  background: radial-gradient(
+    circle,
+    rgba(41, 41, 41, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  color: #bfbfbf;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
 .lightFooter {
   display: flex;
   justify-content: center;
   padding: 2%;
-  background-color: #dfd8c3;
-  color: #312f2e;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(252, 226, 255, 1) 100%
+  );
+  color: #484b6a;
+  box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
 }
 
 .light {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100%;
-  background-color: #e9e3cf;
-  color: rgb(90, 81, 77);
+  background-color: #e4e5f1;
+  color: #484b6a;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
-.searchBar {
+.navContainer {
   display: flex;
-  justify-content: center;
-  margin: 1%;
+  flex-direction: column;
 }
 
-#map {
+.flex-container {
   display: flex;
-  width: 100%;
-  height: 500px;
+  flex-direction: row;
 }
 
-#card1 {
-  background-color: white;
-  width: 70%;
-  margin: 2%;
-  padding: 5%;
-  box-shadow: 1px 1px 4px 0px #acb5c0;
+.mapStyle {
+  width: 36vw;
+  height: 60vh;
+  margin-left: 3%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5);
 }
 
-#card2 {
-  background-color: white;
-  width: 70%;
-  margin: 2%;
-  padding: 5%;
-  box-shadow: 1px 1px 4px 0px #acb5c0;
+@media screen and (max-width: 767px) {
+  body {
+    font-size: 16px;
+  }
+
+  .mapStyle {
+    width: 100%;
+    height: 300px;
+    margin-left: 0;
+  }
+  .toggle {
+    width: 60px;
+    height: 24px;
+  }
+
+  label:after {
+    width: 21.6px;
+    height: 21.6px;
+    top: 1.3px;
+  }
+
+  .switchBoxChecked:after {
+    left: 58.2px;
+    transform: translateX(-100%);
+    background: linear-gradient(180deg, #ffcc89, #d8860b);
+  }
+
+  label:active:after {
+    width: 25px;
+  }
 }
 
-#card3 {
-  background-color: white;
-  width: 70%;
-  margin: 2%;
-  padding: 5%;
-  box-shadow: 1px 1px 4px 0px #acb5c0;
+@media screen and (min-width: 768px) {
+  .toggle {
+    width: 90px;
+    height: 36px;
+  }
+
+  label:after {
+    width: 32.4px;
+    height: 32.4px;
+  }
 }
