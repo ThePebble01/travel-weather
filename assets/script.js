@@ -54,8 +54,6 @@ function handleRoute() {
     //? filter coords?
     coordinates.push([steps[i].dataset.lat, steps[i].dataset.lng]);
   }
-  var stepContainer = $(".directions-control-instructions");
-  $("#route-instructions-container").append(stepContainer);
   for (var j = 0; j < coordinates.length; j++) {
     retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
   }
