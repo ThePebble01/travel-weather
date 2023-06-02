@@ -37,14 +37,16 @@ function switchTheme() {
     container.attr("class", "light");
     header.attr("class", "lightHeader");
     footer.attr("class", "lightFooter");
-    mapShadow.attr("class", "mapLight");
+    mapShadow.addClass("mapLight");
+    mapShadow.removeClass("mapDark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
     container.attr("class", "dark");
     header.attr("class", "darkHeader");
     footer.attr("class", "darkFooter");
-    mapShadow.attr("class", "mapDark");
+    mapShadow.addClass("mapDark");
+    mapShadow.removeClass("mapLight");
   }
 }
 
