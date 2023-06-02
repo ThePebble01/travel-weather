@@ -15,38 +15,32 @@
 
   <body>
     <header class="container-fluid p-1" id="header">
-
-      <h1>Road Trip Buddy</h1>
+        <h1>Road Trip Buddy</h1>
       </div>
       <div class="row toggle">
         <label class="switch col switchBoxChecked" id="theme-switcher"></label>
-
       </div>
     </header>
-
-
-
-    <div>
-      <script
-        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
-      <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css"
-        type="text/css">
-      <div id="map"></div>
-
-
-
-
-    </div>
-    <div id="route-instructions-container">
-      <ol id="route-instructions"></ol>
-    </div>
-    <div id="mapTest"></div>
+    <div class="row" id="container">
+      <section class="col-lg-8 navContainer">
+          <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+          <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
+        <div class="flex-container">
+          <div class="mapStyle" id="map"></div>
+          <div id="route-instructions-container">
+            <ol id="route-instructions"></ol>
+          </div>
+        </div>
+      </section>
+      <div class="col-lg-4" id="mapTest"></div>
+  </div>
     <footer class="container-fluid p-4" id="footer">© 2023 DU-ers, USA</footer>
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="assets/script.js"></script>
-    <!-- <script src="./assets/nav.js"></script> -->
   </body>
 
 </html>
