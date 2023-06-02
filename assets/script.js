@@ -85,27 +85,92 @@ function handleRoute() {
     console.log(stepLengths.get(latLng));
     if (stepLengths.get(latLng) > stDevLength) {
       var latLngArr = latLng.split(latLonKeySeparator);
-      coordinates.push([latLngArr[0], latLngArr[1]]);
+      coordinates.push([
+        Number.parseFloat(latLngArr[0]),
+        Number.parseFloat(latLngArr[1]),
+      ]);
     }
   }
-  //rethink adding origin back; may have clustering at start and end
-  console.log("all 'safe coords'");
-  console.log(coordinates);
   var originLngLatArr = directions.getOrigin().geometry.coordinates;
   var destLngLatArr = directions.getDestination().geometry.coordinates;
-  coordinates.push([originLngLatArr[1], originLngLatArr[0]]);
-  coordinates.push([destLngLatArr[1], destLngLatArr[0]]);
+  coordinates.splice(0, 0, [originLngLatArr[1], originLngLatArr[0]]);
+  coordinates.splice(coordinates.length, 0, [
+    destLngLatArr[1],
+    destLngLatArr[0],
+  ]);
+  //rethink adding origin back; may have clustering at start and end
+  console.log("initial 'safe coords'");
+  console.log(coordinates);
+  //added....
+  var priorPoint;
+  var distance = [];
+  for (var i = 0; i < coordinates.length; i++) {
+    if (priorPoint) {
+      distance.push(
+        calculateCartesianDistance(
+          priorPoint[0],
+          priorPoint[1],
+          coordinates[i][0],
+          coordinates[i][1]
+        )
+      );
+    }
+    priorPoint = coordinates[i];
+  }
+  var sum = 0;
+  for (var i = 0; i < distance.length; i++) {
+    sum += distance[i];
+  }
+  var avgDistance = sum / distance.length;
+  var coordIndexes = [];
+  for (var i = 0; i < distance.length; i++) {
+    if (avgDistance < distance[i]) coordIndexes.push(i);
+  }
+  // coordIndexes el cooresponds to relevant el and el + 1 in coordinates
+  for (var i = 0; i < coordIndexes.length; i++) {
+    var firstCoord = coordinates[coordIndexes[i]];
+    var secondCoord = coordinates[coordIndexes[i] + 1];
+    if (firstCoord && secondCoord) {
+      var midPointCoord = [];
+      midPointCoord[0] = (firstCoord[0] + secondCoord[0]) / 2;
+      midPointCoord[1] = (firstCoord[1] + secondCoord[1]) / 2;
+      coordinates.push(midPointCoord);
+    }
+  }
+  console.log("after garbage...");
+
+  //...done with added crap
+
+  //New functions to add points along coordinates
   for (var j = 0; j < coordinates.length; j++) {
+    console.log(coordinates[j]);
     retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
   }
 }
-function retrieveWeatherFromLocation(lat, lon) {
-  fetch(
-    "https://api.openweathermap.org/data/3.0/onecall?lat=" +
+function calculateCartesianDistance(x1, y1, x2, y2) {
+  return Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5);
+}
+/*  Marlena to swap
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&appid=5a5f2543215b0ae09a5dc07887c20551&units=imperial"
+
+
+      "https://api.openweathermap.org/data/3.0/onecall?lat=" +
       lat +
       "&lon=" +
       lon +
       "&appid=212be1e5713240df908c291b8fbba3f8&units=imperial"
+*/
+function retrieveWeatherFromLocation(lat, lon) {
+  fetch(
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&appid=5a5f2543215b0ae09a5dc07887c20551&units=imperial"
   )
     .then(function (response) {
       return response.json();
@@ -119,10 +184,11 @@ function retrieveWeatherFromLocation(lat, lon) {
           weatherToday.weather[0].icon.replace("n", "d") +
           '@2x.png")'
       );
-      markerEl.attr("data-marker", "true");
       markerEl.css("width", 40);
       markerEl.css("height", 40);
+      markerEl.css("border", "1px solid");
       markerEl.css("backgroundSize", "100%");
+      markerEl.attr("data-marker", "true");
       markerEl.attr("data-lat", lat);
       markerEl.attr("data-lon", lon);
       markerEl.attr("data-toggle", "modal");
