@@ -16,30 +16,23 @@
   </head>
   <body>
     <header class="container-fluid p-1" id="header">
-
         <h1>Road Trip Buddy</h1>
       </div>
       <div class="row toggle">
         <label class="switch col switchBoxChecked" id="theme-switcher"></label>
-
       </div>
     </header>
-
-    
-      <div>
+    <section class="navContainer">
         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
-        <div id="map"></div>
-      
-      
-      
-      
+      <div class="flex-container">
+        <div class="mapStyle" id="map"></div>
+        <div id="route-instructions-container">
+          <ol id="route-instructions"></ol>
+        </div>
       </div>
-      <div id="route-instructions-container">
-        <ol id="route-instructions"></ol>
-      </div>
+    </section>
 <footer class="container-fluid p-4" id="footer">© 2023 DU-ers, USA</footer>
-
 </body>
     <script
       src="https://code.jquery.com/jquery-3.7.0.min.js"
