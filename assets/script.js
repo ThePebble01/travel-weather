@@ -23,6 +23,7 @@ var directions = new MapboxDirections({
 });
 
 map.addControl(directions, "top-right");
+mapTest();
 
 function getCoords(event) {
   var steps = $(".mapbox-directions-step");
@@ -94,3 +95,12 @@ themeSwitcher.on("click", function () {
     footer.attr("class", "darkFooter");
   }
 });
+
+// Justins work
+function mapTest() {
+  const output = $("#mapTest");
+  output.empty();
+  const input = $(".mapboxgl-ctrl");
+  output.append(input[0]);
+  console.log(input);
+}
