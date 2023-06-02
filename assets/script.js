@@ -5,6 +5,7 @@ var footer = $("#footer");
 
 var mode = "dark";
 var routeWeatherData = new Map();
+var latLonWeatherDataKeySeparator = ",";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHNzdGFkMDIiLCJhIjoiY2xpYnl1b3VjMGZ0ZDNwbjFxbmR3ejdqcSJ9.3mwOKhxYibQ9YZdqNZHErQ";
@@ -25,7 +26,7 @@ var directions = new MapboxDirections({
 
 map.addControl(directions, "top-right");
 
-directions.on("route", getCoords);
+directions.on("route", handleRoute);
 
 function switchTheme() {
   if (mode === "dark") {
@@ -43,7 +44,9 @@ function switchTheme() {
   }
 }
 
-function getCoords() {
+function handleRoute() {
+  var markers = $("div[data-marker]");
+  if (markers) markers.remove();
   var steps = $(".mapbox-directions-step");
   var coordinates = [];
   for (var i = 0; i < steps.length; i++) {
@@ -68,26 +71,28 @@ function retrieveWeatherFromLocation(lat, lon) {
       return response.json();
     })
     .then(function (data) {
-      var el = $("<div>"); //JQUERY THIS AND DEPENDENCIES
+      var weatherToday = data.list[0];
+      var el = $("<div>");
       el.css(
         "backgroundImage",
         'url("https://openweathermap.org/img/wn/' +
-          data.list[0].weather[0].icon.replace("n", "d") +
+          weatherToday.weather[0].icon.replace("n", "d") +
           '@2x.png")'
       );
+      el.attr("data-marker", "true");
       el.css("width", 40);
       el.css("height", 40);
       el.css("backgroundSize", "100%");
       el.attr("data-lat", lat);
       el.attr("data-lon", lon);
       routeWeatherData.set(
-        lat + "," + lon,
+        lat + latLonWeatherDataKeySeparator + lon,
         new WeatherData(
-          data.list[0].main.humidity,
-          data.list[0].main.temp,
-          data.list[0].visibility,
-          data.list[0].weather[0].description,
-          data.list[0].wind.gust
+          weatherToday.main.humidity,
+          weatherToday.main.temp,
+          weatherToday.visibility,
+          weatherToday.weather[0].description,
+          weatherToday.wind.gust
         )
       );
 
@@ -104,7 +109,9 @@ function retrieveWeatherFromLocation(lat, lon) {
 function placeholderModalCall(event) {
   event.preventDefault();
   var weatherData = routeWeatherData.get(
-    event.target.dataset.lat + "," + event.target.dataset.lon
+    event.target.dataset.lat +
+      latLonWeatherDataKeySeparator +
+      event.target.dataset.lon
   );
   alert(
     "Humidity: " +
