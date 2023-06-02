@@ -30,6 +30,25 @@
       </section>
       <div class="col-lg-4" id="mapTest"></div>
   </div>
+        <div id="weatherModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="container-fluid"> 
+              <div class="row">
+                <div id="cityName">"name"(from geocoding)</div>
+                <div id="weatherIcon">image="daily.weather.icon"</div>
+              </div>
+              <div class="row">
+                <div id ="currentTemp">"current.temp"</div>
+                <div id="dailyDescription">"daily.weather.description"</div>
+              </div>
+              <div id="lowTemp">Low:<br>"daily.temp.min"</div>
+                <div id="highTemp">High: <br>"daily.temp.max"</div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
     <footer class="container-fluid p-4" id="footer">© 2023 DU-ers, USA</footer>
     <script
       src="https://code.jquery.com/jquery-3.7.0.min.js"
