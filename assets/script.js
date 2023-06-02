@@ -5,19 +5,22 @@ var footer = $("#footer");
 var mapShadow = $("#map");
 
 var mode = "dark";
+var directions;
+var map = {};
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
 
-mapboxgl.accessToken =
+$(function(){
+  mapboxgl.accessToken =
   "pk.eyJ1IjoiZHNzdGFkMDIiLCJhIjoiY2xpYnl1b3VjMGZ0ZDNwbjFxbmR3ejdqcSJ9.3mwOKhxYibQ9YZdqNZHErQ";
-const map = new mapboxgl.Map({
+ map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/streets-v12",
   center: [-104.9903, 39.7392],
   zoom: 12,
 });
 
-var directions = new MapboxDirections({
+directions = new MapboxDirections({
   accessToken: mapboxgl.accessToken,
   unit: "imperial",
   profile: "mapbox/driving",
@@ -29,6 +32,8 @@ map.addControl(directions, "top-right");
 moveDirections();
 
 directions.on("route", handleRoute);
+})
+
 
 function switchTheme() {
   if (mode === "dark") {
@@ -49,15 +54,34 @@ function switchTheme() {
 }
 
 function handleRoute() {
+  resetMarkers();
+  var steps = $(".mapbox-directions-step");
+  var coordinates = organizeCoordsRespectingStandardDeviation($(".mapbox-directions-route-summary")[0].children[1]
+  .textContent, steps);
+  //rethink adding origin and destination back; may have clustering at start and end
+  console.log("initial 'safe coords'");
+  console.log(coordinates);
+  //added....
+  coordinates = appendCoordinatesForStepsWithLargeDistance(coordinates);
+  console.log("after garbage...");
+  //...done with added crap
+
+  //New functions to add points along coordinates
+  for (var j = 0; j < coordinates.length; j++) {
+    console.log(coordinates[j]);
+    retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
+  }
+}
+function resetMarkers(){
   var markers = $("div[data-marker]");
   if (markers) markers.remove();
-  var steps = $(".mapbox-directions-step");
-  var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
-    .textContent;
+}
+function organizeCoordsRespectingStandardDeviation(routeDistance, steps){
+  var coordinateResults = [];
+  var stepLengths = new Map();
   var routeLength = routeDistance.substring(0, routeDistance.length - 2);
   var avgLength = routeLength / steps.length;
   var sumOfLengthDiff = 0;
-  var stepLengths = new Map();
   for (var i = 0; i < steps.length; i++) {
     if (steps[i].children[2]) {
       var stepLat = steps[i].dataset.lat;
@@ -76,16 +100,13 @@ function handleRoute() {
         stepLengths.set(stepLat + latLonKeySeparator + stepLng, stepLengthMi);
       }
     }
-    //ONLY PUSH RELEVANT POINTS - move out of this loop
-    //coordinates.push([stepLat, stepLng]);
   }
-  var coordinates = [];
   var stDevLength = Math.pow(sumOfLengthDiff / steps.length, 0.5);
   for (var latLng of stepLengths.keys()) {
     console.log(stepLengths.get(latLng));
     if (stepLengths.get(latLng) > stDevLength) {
       var latLngArr = latLng.split(latLonKeySeparator);
-      coordinates.push([
+      coordinateResults.push([
         Number.parseFloat(latLngArr[0]),
         Number.parseFloat(latLngArr[1]),
       ]);
@@ -93,15 +114,14 @@ function handleRoute() {
   }
   var originLngLatArr = directions.getOrigin().geometry.coordinates;
   var destLngLatArr = directions.getDestination().geometry.coordinates;
-  coordinates.splice(0, 0, [originLngLatArr[1], originLngLatArr[0]]);
-  coordinates.splice(coordinates.length, 0, [
+  coordinateResults.splice(0, 0, [originLngLatArr[1], originLngLatArr[0]]);
+  coordinateResults.splice(coordinateResults.length, 0, [
     destLngLatArr[1],
     destLngLatArr[0],
-  ]);
-  //rethink adding origin back; may have clustering at start and end
-  console.log("initial 'safe coords'");
-  console.log(coordinates);
-  //added....
+  ])
+  return coordinateResults;
+}
+function appendCoordinatesForStepsWithLargeDistance(coordinates){
   var priorPoint;
   var distance = [];
   for (var i = 0; i < coordinates.length; i++) {
@@ -126,7 +146,7 @@ function handleRoute() {
   for (var i = 0; i < distance.length; i++) {
     if (avgDistance < distance[i]) coordIndexes.push(i);
   }
-  // coordIndexes el cooresponds to relevant el and el + 1 in coordinates
+  // coordIndexes coorespond to the relevant index and index +1 in the coordinates array
   for (var i = 0; i < coordIndexes.length; i++) {
     var firstCoord = coordinates[coordIndexes[i]];
     var secondCoord = coordinates[coordIndexes[i] + 1];
@@ -137,15 +157,7 @@ function handleRoute() {
       coordinates.push(midPointCoord);
     }
   }
-  console.log("after garbage...");
-
-  //...done with added crap
-
-  //New functions to add points along coordinates
-  for (var j = 0; j < coordinates.length; j++) {
-    console.log(coordinates[j]);
-    retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
-  }
+  return coordinates;
 }
 function calculateCartesianDistance(x1, y1, x2, y2) {
   return Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5);
