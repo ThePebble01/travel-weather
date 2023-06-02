@@ -25,6 +25,7 @@ var directions = new MapboxDirections({
 });
 
 map.addControl(directions, "top-right");
+mapTest();
 
 directions.on("route", handleRoute);
 
@@ -136,3 +137,12 @@ function WeatherData(humidity, temp, visibility, description, windGust) {
 }
 
 themeSwitcher.on("click", switchTheme);
+
+// Justins work
+function mapTest() {
+  const output = $("#mapTest");
+  output.empty();
+  const input = $(".mapboxgl-ctrl");
+  output.append(input[0]);
+  console.log(input);
+}
