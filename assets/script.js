@@ -2,6 +2,7 @@ var themeSwitcher = $("#theme-switcher");
 var container = $("body");
 var header = $("#header");
 var footer = $("#footer");
+var mapShadow = $("#map");
 
 var mode = "dark";
 var routeWeatherData = new Map();
@@ -36,12 +37,16 @@ function switchTheme() {
     container.attr("class", "light");
     header.attr("class", "lightHeader");
     footer.attr("class", "lightFooter");
+    mapShadow.addClass("mapLight");
+    mapShadow.removeClass("mapDark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
     container.attr("class", "dark");
     header.attr("class", "darkHeader");
     footer.attr("class", "darkFooter");
+    mapShadow.addClass("mapDark");
+    mapShadow.removeClass("mapLight");
   }
 }
 

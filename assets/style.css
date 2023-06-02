@@ -139,22 +139,45 @@ label:active:after {
   transition: 0.4s;
 }
 
-.navContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-}
-
 .mapStyle {
-  width: 36vw;
-  height: 60vh;
+  width: 60vw;
+  height: 72vh;
   margin-left: 3%;
   border-radius: 8px;
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
+}
+
+.mapbox-directions-component,
+.mapbox-directions-inputs {
+  width: 30vw;
+  margin-right: 3%;
+}
+
+.directions-control.directions-control-directions {
+  background: rgba(0, 0, 0, 0.75);
+  margin: 11px 0 0;
+  color: #fff;
+  width: 30vw;
+  height: 48vh;
+  border-radius: 8px;
+}
+
+.mapLight {
+  width: 60vw;
+  height: 72vh;
+  margin-left: 3%;
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
+}
+
+.mapDark {
+  width: 60vw;
+  height: 72vh;
+  margin-left: 3%;
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
 @media screen and (max-width: 767px) {
