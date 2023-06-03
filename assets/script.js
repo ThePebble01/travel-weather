@@ -34,7 +34,6 @@ moveDirections();
 directions.on("route", handleRoute);
 })
 
-
 function switchTheme() {
   if (mode === "dark") {
     mode = "light";
@@ -55,17 +54,15 @@ function switchTheme() {
 function handleRoute() {
   resetMarkers();
   var steps = $(".mapbox-directions-step");
-  var coordinates = organizeCoordsRespectingStandardDeviation($(".mapbox-directions-route-summary")[0].children[1]
-  .textContent, steps);
-  //rethink adding origin and destination back; may have clustering at start and end
-  console.log("initial 'safe coords'");
+  var routeDistance = $(".mapbox-directions-route-summary")[0].children[1].textContent;
+  var routeLength = routeDistance.substring(0, routeDistance.length - 2);
+  var coordinates = organizeCoordsRespectingStandardDeviation(routeLength, steps);
+  // Purge the console.log before deploying
+  console.log("filtered coords");
   console.log(coordinates);
-  //added....
-  coordinates = appendCoordinatesForStepsWithLargeDistance(coordinates);
-  console.log("after garbage...");
-  //...done with added crap
-
-  //New functions to add points along coordinates
+  coordinates = appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates);
+  console.log("coords after appendCoordinatesForStepsWithLargeDistance");
+  console.log(coordinates);
   for (var j = 0; j < coordinates.length; j++) {
     console.log(coordinates[j]);
     retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
@@ -75,10 +72,9 @@ function resetMarkers(){
   var markers = $("div[data-marker]");
   if (markers) markers.remove();
 }
-function organizeCoordsRespectingStandardDeviation(routeDistance, steps){
+function organizeCoordsRespectingStandardDeviation(routeLength, steps){
   var coordinateResults = [];
   var stepLengths = new Map();
-  var routeLength = routeDistance.substring(0, routeDistance.length - 2);
   var avgLength = routeLength / steps.length;
   var sumOfLengthDiff = 0;
   for (var i = 0; i < steps.length; i++) {
@@ -120,12 +116,12 @@ function organizeCoordsRespectingStandardDeviation(routeDistance, steps){
   ])
   return coordinateResults;
 }
-function appendCoordinatesForStepsWithLargeDistance(coordinates){
+function appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates){
   var priorPoint;
-  var distance = [];
+  var stepDistances = [];
   for (var i = 0; i < coordinates.length; i++) {
     if (priorPoint) {
-      distance.push(
+      stepDistances.push(
         calculateEuclideanDistance(
           priorPoint[0],
           priorPoint[1],
@@ -136,14 +132,10 @@ function appendCoordinatesForStepsWithLargeDistance(coordinates){
     }
     priorPoint = coordinates[i];
   }
-  var sum = 0;
-  for (var i = 0; i < distance.length; i++) {
-    sum += distance[i];
-  }
-  var avgDistance = sum / distance.length;
+  var avgDistance = routeLength / stepDistances.length;
   var coordIndexes = [];
-  for (var i = 0; i < distance.length; i++) {
-    if (avgDistance < distance[i]) coordIndexes.push(i);
+  for (var i = 0; i < stepDistances.length; i++) {
+    if (avgDistance < stepDistances[i]) coordIndexes.push(i);
   }
   // coordIndexes coorespond to the relevant index and index +1 in the coordinates array
   for (var i = 0; i < coordIndexes.length; i++) {
