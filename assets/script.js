@@ -2,7 +2,16 @@ var themeSwitcher = $("#theme-switcher");
 var container = $("body");
 var header = $("#header");
 var footer = $("#footer");
+var headerLogo = $("#headerLogo");
 var mapShadow = $("#map");
+
+// modal (don't convert to jquery)
+
+var modal = document.getElementById("weatherModal");
+var modalDescription = document.getElementById("#modalDescription");
+var span = document.getElementsByClassName("close")[0];
+
+//
 
 var mode = "dark";
 var routeWeatherData = new Map();
@@ -37,6 +46,7 @@ function switchTheme() {
     container.attr("class", "light");
     header.attr("class", "lightHeader");
     footer.attr("class", "lightFooter");
+    document.getElementById("headerLogo").src = "images/logoLight.png";
     mapShadow.addClass("mapLight");
     mapShadow.removeClass("mapDark");
   } else {
@@ -45,6 +55,7 @@ function switchTheme() {
     container.attr("class", "dark");
     header.attr("class", "darkHeader");
     footer.attr("class", "darkFooter");
+    document.getElementById("headerLogo").src = "images/logoDark.png";
     mapShadow.addClass("mapDark");
     mapShadow.removeClass("mapLight");
   }
@@ -100,7 +111,17 @@ function retrieveWeatherFromLocation(lat, lon) {
         )
       );
 
-      el.on("click", placeholderModalCall);
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      el.on("click", modalCall);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
@@ -110,25 +131,18 @@ function retrieveWeatherFromLocation(lat, lon) {
       console.log(error);
     });
 }
-function placeholderModalCall(event) {
+
+function modalCall(event) {
+  modal.style.display = "block";
   event.preventDefault();
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat +
       latLonWeatherDataKeySeparator +
       event.target.dataset.lon
   );
-  alert(
-    "Humidity: " +
-      weatherData.humidity +
-      "\nTemp: " +
-      weatherData.temp +
-      "\nVisibility: " +
-      weatherData.visibility +
-      "\nDescription: " +
-      weatherData.description +
-      "\nWind: " +
-      weatherData.windGust
-  );
+  $("#modHumid").html(weatherData.humidity + "%");
+  $("#modTemp").html(weatherData.temp + "°");
+  $("#modWind").html(weatherData.windGust + "%");
 }
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
 function WeatherData(humidity, temp, visibility, description, windGust) {
