@@ -52,7 +52,6 @@ function switchTheme() {
     mapShadow.attr("class", "mapDark");
   }
 }
-
 function handleRoute() {
   resetMarkers();
   var steps = $(".mapbox-directions-step");
@@ -127,7 +126,7 @@ function appendCoordinatesForStepsWithLargeDistance(coordinates){
   for (var i = 0; i < coordinates.length; i++) {
     if (priorPoint) {
       distance.push(
-        calculateCartesianDistance(
+        calculateEuclideanDistance(
           priorPoint[0],
           priorPoint[1],
           coordinates[i][0],
@@ -159,7 +158,7 @@ function appendCoordinatesForStepsWithLargeDistance(coordinates){
   }
   return coordinates;
 }
-function calculateCartesianDistance(x1, y1, x2, y2) {
+function calculateEuclideanDistance(x1, y1, x2, y2) {
   return Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5);
 }
 /*  Marlena to swap
