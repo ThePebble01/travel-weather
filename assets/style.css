@@ -104,8 +104,18 @@ footer a {
   flex-direction: column;
 }
 
-.toggleIcon {
+.toggleIconSun {
   display: inline-block;
+  margin-left: -51%;
+  font-size: 20px;
+  line-height: 26px;
+  color: #555;
+  transition: opacity 0.3s ease;
+}
+
+.toggleIconMoon {
+  display: inline-block;
+  margin-left: -12%;
   font-size: 20px;
   line-height: 26px;
   color: #555;
@@ -329,6 +339,24 @@ label:active:after {
     height: 24px;
     margin-top: -5%;
     margin-right: 12%;
+  }
+
+  .toggleIconSun {
+    display: inline-block;
+    margin-left: -162%;
+    font-size: 20px;
+    line-height: 26px;
+    color: #555;
+    transition: opacity 0.3s ease;
+  }
+
+  .toggleIconMoon {
+    display: inline-block;
+    margin-left: -12%;
+    font-size: 20px;
+    line-height: 26px;
+    color: #555;
+    transition: opacity 0.3s ease;
   }
 
   label:after {
