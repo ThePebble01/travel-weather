@@ -109,10 +109,10 @@ function retrieveWeatherFromLocation(lat, lon) {
         lat + latLonWeatherDataKeySeparator + lon,
         new WeatherData(
           weatherToday.temp,
-          data.daily[0].weather.icon,
-          data.daily[0].weather.description,
+          data.daily[0].weather[0].icon.replace("n", "d"),
+          data.daily[0].weather[0].description,
           data.daily[0].temp.min,
-          data.daily[0].temp.max,
+          data.daily[0].temp.max
         )
       );
 
@@ -145,9 +145,17 @@ function modalCall(event) {
       latLonWeatherDataKeySeparator +
       event.target.dataset.lon
   );
-  $("#modHumid").html(weatherData.humidity + "%");
+  console.log(weatherData);
   $("#modTemp").html(weatherData.temp + "°");
-  $("#modWind").html(weatherData.windGust + "%");
+  var weatherIcon = $("<img>");
+  weatherIcon.attr(
+    "src",
+    "https://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png"
+  );
+  $(".weather-icon").append(weatherIcon);
+  $("#modTempMin").html(weatherData.min + "°");
+  $("#modTempMax").html(weatherData.max + "°");
+  $("#weatherDescription").html(weatherData.description);
 }
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
 function WeatherData(temp, icon, description, min, max) {
