@@ -9,13 +9,7 @@ var spanEl = $(".close")[0];
 var toggleColor = $("#toggle");
 
 var mode = "dark";
-var directions = new MapboxDirections({
-  accessToken: mapboxgl.accessToken,
-  unit: "imperial",
-  profile: "mapbox/driving",
-  routePadding: 10,
-  interactive: false,
-});
+var directions;
 var map = {};
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
@@ -30,7 +24,13 @@ $(function () {
     center: [-104.9903, 39.7392],
     zoom: 12,
   });
-
+  directions = new MapboxDirections({
+    accessToken: mapboxgl.accessToken,
+    unit: "imperial",
+    profile: "mapbox/driving",
+    routePadding: 10,
+    interactive: false,
+  });
   map.addControl(directions, "top-right");
   moveDirections();
 
@@ -62,14 +62,23 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleLight");
   }
 }
-
+$("#tempRouteFromHistory").on("click", handleRandomRoute);
+function handleRandomRoute() {
+  var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
+  if (Array.isArray(searchHistoryArr)) {
+    var origin = searchHistoryArr[0].origin;
+    console.log(origin);
+    var destination = searchHistoryArr[0].destination;
+    console.log(destination);
+    directions.setOrigin([origin.lng, origin.lat]);
+    directions.setDestination([destination.lng, destination.lat]);
+  }
+}
 $("#tempHistory").on("click", handleSearchHistory);
 function handleSearchHistory(event) {
   event.preventDefault();
   var alertText = "";
-  var searchHistoryArr = JSON.parse(
-    localStorage.getItem(localStorageKey) //make global var
-  );
+  var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
   if (Array.isArray(searchHistoryArr)) {
     for (var i = 0; i < searchHistoryArr.length; i++) {
       var origin = searchHistoryArr[i].origin;
@@ -134,7 +143,6 @@ function prepareSearchHistory() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       var reverseGeoOrigin = new ReverseGeocodeResult(
         data[0].name,
         data[0].state,
@@ -161,7 +169,6 @@ function retrieveDestinationAndSaveSearch(reverseGeoOrigin) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       var searchHistoryArr = [];
       var reverseGeoDest = new ReverseGeocodeResult(
         data[0].name,
