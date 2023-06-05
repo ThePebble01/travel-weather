@@ -6,6 +6,7 @@ var headerLogo = $("#headerLogo");
 var mapShadow = $("#map");
 var modalEl = $("#weatherModal");
 var spanEl = $(".close")[0];
+var toggleColor = $("#toggle");
 
 var mode = "dark";
 var directions;
@@ -47,6 +48,8 @@ function switchTheme() {
     $("#headerLogo").src = "images/logoLight.png";
     mapShadow.addClass("mapLight");
     mapShadow.removeClass("mapDark");
+    toggleColor.addClass("toggleLight");
+    toggleColor.removeClass("toggleDark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
@@ -56,6 +59,8 @@ function switchTheme() {
     $("#headerLogo").src = "images/logoDark.png";
     mapShadow.addClass("mapDark");
     mapShadow.removeClass("mapLight");
+    toggleColor.addClass("toggleDark");
+    toggleColor.removeClass("toggleLight");
   }
 }
 function handleRoute() {
@@ -144,7 +149,7 @@ function appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates) {
   for (var i = 0; i < stepDistances.length; i++) {
     if (avgDistance < stepDistances[i]) coordIndexes.push(i);
   }
-  // coordIndexes coorespond to the relevant index and index +1 in the coordinates array
+  // Each coordIndexes element cooresponds to the relevant index and index +1 in the coordinates array
   for (var i = 0; i < coordIndexes.length; i++) {
     var firstCoord = coordinates[coordIndexes[i]];
     var secondCoord = coordinates[coordIndexes[i] + 1];
@@ -160,33 +165,19 @@ function appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates) {
 function calculateEuclideanDistance(x1, y1, x2, y2) {
   return Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5);
 }
-/*  Marlena to swap
-    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&appid=5a5f2543215b0ae09a5dc07887c20551&units=imperial"
-
-
-      "https://api.openweathermap.org/data/3.0/onecall?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&appid=212be1e5713240df908c291b8fbba3f8&units=imperial"
-*/
 function retrieveWeatherFromLocation(lat, lon) {
   fetch(
-    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://api.openweathermap.org/data/3.0/onecall?lat=" +
       lat +
       "&lon=" +
       lon +
-      "&appid=5a5f2543215b0ae09a5dc07887c20551&units=imperial"
+      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
   )
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      var weatherToday = data.list[0];
+      var weatherToday = data.current;
       var markerEl = $("<div>");
       markerEl.css(
         "backgroundImage",
@@ -196,7 +187,6 @@ function retrieveWeatherFromLocation(lat, lon) {
       );
       markerEl.css("width", 40);
       markerEl.css("height", 40);
-      markerEl.css("border", "1px solid");
       markerEl.css("backgroundSize", "100%");
       markerEl.attr("data-marker", "true");
       markerEl.attr("data-lat", lat);
@@ -206,11 +196,11 @@ function retrieveWeatherFromLocation(lat, lon) {
       routeWeatherData.set(
         lat + latLonKeySeparator + lon,
         new WeatherData(
-          weatherToday.main.humidity,
-          weatherToday.main.temp,
-          weatherToday.visibility,
+          data.current.temp,
+          weatherToday.weather[0].icon.replace("n", "d"),
           weatherToday.weather[0].description,
-          weatherToday.wind.gust
+          data.daily[0].temp.min,
+          data.daily[0].temp.max
         )
       );
 
@@ -224,7 +214,7 @@ function retrieveWeatherFromLocation(lat, lon) {
         }
       };
 
-      markerEl.on("click", modalCall);
+      markerEl.on("click", handleModalCall);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
@@ -237,23 +227,28 @@ function retrieveWeatherFromLocation(lat, lon) {
     });
 }
 
-function modalCall(event) {
+function handleModalCall(event) {
   modalEl.css("display", "block");
   event.preventDefault();
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat + latLonKeySeparator + event.target.dataset.lon
   );
-  $("#modHumid").html(weatherData.humidity + "%");
   $("#modTemp").html(weatherData.temp + "°");
-  $("#modWind").html(weatherData.windGust + "%");
+  var weatherIcon = $("#weather-icon");
+  weatherIcon.attr(
+    "src",
+    "https://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png"
+  );
+  $("#modTempMin").html(weatherData.min + "°");
+  $("#modTempMax").html(weatherData.max + "°");
+  $("#weatherDescription").html(weatherData.description);
 }
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
-function WeatherData(humidity, temp, visibility, description, windGust) {
-  this.humidity = humidity;
+function WeatherData(temp, icon, description, min, max) {
   this.temp = temp;
-  this.visibility = visibility;
+  this.icon = icon;
   this.description = description;
-  this.windGust = windGust;
+  this.min = min;
+  this.max = max;
 }
 
 themeSwitcher.on("click", switchTheme);

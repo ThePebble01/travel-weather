@@ -18,7 +18,10 @@
   <body>
     <header class="container-fluid p-1" id="header">
       <img src="images/logoDark.png" id="headerLogo">
-      <div class="row toggle"><label class="switch col switchBoxChecked" id="theme-switcher"></label>
+      <div class="row toggle iconContainer" id="toggle"><label class="switch col switchBoxChecked" id="theme-switcher">
+      </label>
+      <span class="toggleIconSun">☀︎</span>
+      <span class="toggleIconMoon">☾</span>
     </header>
     <div class="row" id="container">
       <section class="col-lg-8">
@@ -27,6 +30,7 @@
           <div class="mapStyle" id="map"></div>
           <div  id="route-instructions-container">
           <ol id="route-instructions"></ol>
+          <p class="iconNotes">Click on a Weather Icon to view weather details</p>
           </div>
       </section>
       <div class="col-lg-4" id="mapTest"></div>
@@ -36,10 +40,13 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div id="modalFlex">
-        <span id="weatherIcon"><p></p></span>
-        <div class="modalHeaders">Temperature <p class="modalText" id="modTemp"></p></div> <span class="separator"></span>
-        <div class="modalHeaders">Humidity <p class="modalText" id="modHumid"></p></div> <span class="separator"></span>
-        <div class="modalHeaders">Wind <p class="modalText" id="modWind"></p></div>
+          <div class ="temperature-container">
+            <div class="modalHeaders">Current Temperature <p class="modalText" id="modTemp"></p></div> <br>
+            <div class="modalHeaders">Temp Min <p class="modalText" id="modTempMin"></p></div> <br>
+            <div class="modalHeaders">Temp Max <p class="modalText" id="modTempMax"></p></div> <br>
+          </div>
+          <div class="modalHeaders"><img id="weather-icon"></div> <br>
+          <div class="modalHeaders">Description <p class="modalText" id="weatherDescription"></p></div> <br>
         </div>
       </div>
     </div>
