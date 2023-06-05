@@ -7,9 +7,8 @@ var mapShadow = $("#map");
 
 // modal (don't convert to jquery)
 
-var modal = document.getElementById("weatherModal");
-var modalDescription = document.getElementById("#modalDescription");
-var span = document.getElementsByClassName("close")[0];
+var modalEl = $("#weatherModal");
+var spanEl = $(".close")[0];
 
 //
 
@@ -50,7 +49,7 @@ function switchTheme() {
     container.attr("class", "light");
     header.attr("class", "lightHeader");
     footer.attr("class", "lightFooter");
-    document.getElementById("headerLogo").src = "images/logoLight.png";
+    $("#headerLogo").src = "images/logoLight.png";
     mapShadow.addClass("mapLight");
     mapShadow.removeClass("mapDark");
   } else {
@@ -59,7 +58,7 @@ function switchTheme() {
     container.attr("class", "dark");
     header.attr("class", "darkHeader");
     footer.attr("class", "darkFooter");
-    document.getElementById("headerLogo").src = "images/logoDark.png";
+    $("#headerLogo").src = "images/logoDark.png";
     mapShadow.addClass("mapDark");
     mapShadow.removeClass("mapLight");
   }
@@ -70,22 +69,16 @@ function handleRoute() {
   var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
     .textContent;
   var routeLength = routeDistance.substring(0, routeDistance.length - 2);
-  var coordinates = organizeCoordsRespectingStandardDeviation(
+  var routeCoordinates = organizeCoordsRespectingStandardDeviation(
     routeLength,
     steps
   );
-  // Purge the console.log before deploying
-  console.log("filtered coords");
-  console.log(coordinates);
-  coordinates = appendCoordinatesForStepsWithLargeDistance(
+  routeCoordinates = appendCoordinatesForStepsWithLargeDistance(
     routeLength,
-    coordinates
+    routeCoordinates
   );
-  console.log("coords after appendCoordinatesForStepsWithLargeDistance");
-  console.log(coordinates);
-  for (var j = 0; j < coordinates.length; j++) {
-    console.log(coordinates[j]);
-    retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
+  for (var j = 0; j < routeCoordinates.length; j++) {
+    retrieveWeatherFromLocation(routeCoordinates[j][0], routeCoordinates[j][1]);
   }
 }
 function resetMarkers() {
@@ -118,7 +111,6 @@ function organizeCoordsRespectingStandardDeviation(routeLength, steps) {
   }
   var stDevLength = Math.pow(sumOfLengthDiff / steps.length, 0.5);
   for (var latLng of stepLengths.keys()) {
-    console.log(stepLengths.get(latLng));
     if (stepLengths.get(latLng) > stDevLength) {
       var latLngArr = latLng.split(latLonKeySeparator);
       coordinateResults.push([
@@ -227,13 +219,13 @@ function retrieveWeatherFromLocation(lat, lon) {
         )
       );
 
-      span.onclick = function () {
-        modal.style.display = "none";
+      spanEl.onclick = function () {
+        modalEl.css("display", "none");
       };
 
       window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
+        if (event.target == modalEl[0]) {
+          modalEl.css("display", "none");
         }
       };
 
@@ -251,7 +243,7 @@ function retrieveWeatherFromLocation(lat, lon) {
 }
 
 function modalCall(event) {
-  modal.style.display = "block";
+  modalEl.css("display", "block");
   event.preventDefault();
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat + latLonKeySeparator + event.target.dataset.lon
