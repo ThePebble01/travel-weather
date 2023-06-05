@@ -81,17 +81,17 @@ function handleRoute() {
 }
 function retrieveWeatherFromLocation(lat, lon) {
   fetch(
-    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://api.openweathermap.org/data/3.0/onecall?lat=" +
       lat +
       "&lon=" +
       lon +
-      "&appid=5a5f2543215b0ae09a5dc07887c20551&units=imperial"
+      "&appid=212be1e5713240df908c291b8fbba3f8&units=imperial"
   )
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      var weatherToday = data.list[0];
+      var weatherToday = data.current;
       var el = $("<div>");
       el.css(
         "backgroundImage",
@@ -108,11 +108,11 @@ function retrieveWeatherFromLocation(lat, lon) {
       routeWeatherData.set(
         lat + latLonWeatherDataKeySeparator + lon,
         new WeatherData(
-          weatherToday.main.humidity,
-          weatherToday.main.temp,
-          weatherToday.visibility,
-          weatherToday.weather[0].description,
-          weatherToday.wind.gust
+          weatherToday.temp,
+          data.daily[0].weather.icon,
+          data.daily[0].weather.description,
+          data.daily[0].temp.min,
+          data.daily[0].temp.max,
         )
       );
 
@@ -150,12 +150,12 @@ function modalCall(event) {
   $("#modWind").html(weatherData.windGust + "%");
 }
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
-function WeatherData(humidity, temp, visibility, description, windGust) {
-  this.humidity = humidity;
+function WeatherData(temp, icon, description, min, max) {
   this.temp = temp;
-  this.visibility = visibility;
+  this.icon = icon;
   this.description = description;
-  this.windGust = windGust;
+  this.min = min;
+  this.max = max;
 }
 
 themeSwitcher.on("click", switchTheme);
