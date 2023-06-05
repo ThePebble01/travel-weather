@@ -7,17 +7,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/reset.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://kit.fontawesome.com/d7ffd59b37.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <title>RoadTrip Buddy</title>
   </head>
   <body>
     <header class="container-fluid p-1" id="header">
-        <h1>Road Trip Buddy</h1>
-      </div>
-      <div class="row toggle">
-        <label class="switch col switchBoxChecked" id="theme-switcher"></label>
-      </div>
+      <img src="images/logoDark.png" id="headerLogo">
+      <div class="row toggle iconContainer" id="toggle"><label class="switch col switchBoxChecked" id="theme-switcher">
+      </label>
+      <span class="toggleIcon">☀︎</span>
+      <span class="toggleIcon">☾</span>
     </header>
     <div class="row" id="container">
       <section class="col-lg-8">
@@ -26,30 +30,39 @@
           <div class="mapStyle" id="map"></div>
           <div  id="route-instructions-container">
           <ol id="route-instructions"></ol>
+          <p class="iconNotes">Click on a Weather Icon to view weather details</p>
           </div>
       </section>
       <div class="col-lg-4" id="mapTest"></div>
   </div>
-        <div id="weatherModal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="container-fluid"> 
-              <div class="row">
-                <div id="cityName">"name"(from geocoding)</div>
-                <div id="weatherIcon">image="daily.weather.icon"</div>
-              </div>
-              <div class="row">
-                <div id ="currentTemp">"current.temp"</div>
-                <div id="dailyDescription">"daily.weather.description"</div>
-              </div>
-              <div id="lowTemp">Low:<br>"daily.temp.min"</div>
-                <div id="highTemp">High: <br>"daily.temp.max"</div>
-              </div>
-            </div>
-          </div>
+      
+    <div id="weatherModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalFlex">
+        <span id="weatherIcon"><p></p></span>
+        <div class="modalHeaders">Temperature <p class="modalText" id="modTemp"></p></div> <span class="separator"></span>
+        <div class="modalHeaders">Humidity <p class="modalText" id="modHumid"></p></div> <span class="separator"></span>
+        <div class="modalHeaders">Wind <p class="modalText" id="modWind"></p></div>
         </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+        <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Placeholder text</p>
+      </div>
+    </div>
   
-    <footer class="container-fluid p-4" id="footer">© 2023 DU-ers, USA</footer>
+    <footer class="container-fluid p-3" id="footer">
+      <span id="socialMedia"> <a href="https://github.com/DSStad/travel-weather"><i class="fa-brands fa-github"></i></a> 
+        <a href="#"><i class="fa-brands fa-twitter"></i> </a>
+        <a href="#"><i class="fa-brands fa-facebook"></i> </a>
+        <a href="#"><i class="fa-solid fa-envelope"></i></a></span><br>
+      © 2023 DU-ers, Colorado & New Mexico, USA</footer>
     <script
       src="https://code.jquery.com/jquery-3.7.0.min.js"
       crossorigin="anonymous"
