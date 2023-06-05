@@ -93,8 +93,6 @@ function retrieveWeatherFromLocation(lat, lon) {
     .then(function (data) {
       var weatherToday = data.current;
       var el = $("<div>");
-      console.log("marker build");
-      console.log(weatherToday.weather[0].icon);
       el.css(
         "backgroundImage",
         'url("https://openweathermap.org/img/wn/' +
@@ -110,9 +108,9 @@ function retrieveWeatherFromLocation(lat, lon) {
       routeWeatherData.set(
         lat + latLonWeatherDataKeySeparator + lon,
         new WeatherData(
-          weatherToday.temp,
-          data.daily[0].weather[0].icon.replace("n", "d"),
-          data.daily[0].weather[0].description,
+          data.current.temp,
+          weatherToday.weather[0].icon.replace("n", "d"),
+          weatherToday.weather[0].description,
           data.daily[0].temp.min,
           data.daily[0].temp.max
         )
@@ -142,16 +140,14 @@ function retrieveWeatherFromLocation(lat, lon) {
 function modalCall(event) {
   modal.style.display = "block";
   event.preventDefault();
+  console.log(event.target.dataset);
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat +
       latLonWeatherDataKeySeparator +
       event.target.dataset.lon
   );
-
   $("#modTemp").html(weatherData.temp + "°");
   var weatherIcon = $("#weather-icon");
-  console.log("icon set!");
-  console.log(weatherData.icon);
   weatherIcon.attr(
     "src",
     "https://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png"
@@ -160,7 +156,6 @@ function modalCall(event) {
   $("#modTempMax").html(weatherData.max + "°");
   $("#weatherDescription").html(weatherData.description);
 }
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
 function WeatherData(temp, icon, description, min, max) {
   this.temp = temp;
   this.icon = icon;
