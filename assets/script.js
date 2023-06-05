@@ -63,7 +63,13 @@ function switchTheme() {
     toggleColor.removeClass("toggleLight");
   }
 }
+//http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}
+function saveOrginAndDestinationToHistory() {
+  console.log(directions.getDestination());
+  console.log(directions.getOrigin());
+}
 function handleRoute() {
+  saveOrginAndDestinationToHistory();
   resetMarkers();
   var steps = $(".mapbox-directions-step");
   var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
