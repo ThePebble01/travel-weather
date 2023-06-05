@@ -283,12 +283,15 @@ label:active:after {
   max-width: 30%;
   height: 40%;
 }
-
+.temperature-container {
+  display: flex;
+}
 .close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
+  margin-bottom: 5%;
 }
 
 .close:hover,
@@ -300,6 +303,7 @@ label:active:after {
 
 #modalFlex {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -317,13 +321,9 @@ label:active:after {
   font-weight: normal;
   color: gray;
 }
-
-.separator {
-  height: 40px;
-  width: 1px;
-  background-color: #cccccc;
+#weather-icon {
+  margin-top: 5%;
 }
-
 @media screen and (max-width: 767px) {
   body {
     font-size: 16px;

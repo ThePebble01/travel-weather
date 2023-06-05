@@ -85,7 +85,7 @@ function retrieveWeatherFromLocation(lat, lon) {
       lat +
       "&lon=" +
       lon +
-      "&appid=212be1e5713240df908c291b8fbba3f8&units=imperial"
+      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
   )
     .then(function (response) {
       return response.json();
@@ -108,11 +108,11 @@ function retrieveWeatherFromLocation(lat, lon) {
       routeWeatherData.set(
         lat + latLonWeatherDataKeySeparator + lon,
         new WeatherData(
-          weatherToday.temp,
-          data.daily[0].weather.icon,
-          data.daily[0].weather.description,
+          data.current.temp,
+          weatherToday.weather[0].icon.replace("n", "d"),
+          weatherToday.weather[0].description,
           data.daily[0].temp.min,
-          data.daily[0].temp.max,
+          data.daily[0].temp.max
         )
       );
 
@@ -145,11 +145,16 @@ function modalCall(event) {
       latLonWeatherDataKeySeparator +
       event.target.dataset.lon
   );
-  $("#modHumid").html(weatherData.humidity + "%");
   $("#modTemp").html(weatherData.temp + "°");
-  $("#modWind").html(weatherData.windGust + "%");
+  var weatherIcon = $("#weather-icon");
+  weatherIcon.attr(
+    "src",
+    "https://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png"
+  );
+  $("#modTempMin").html(weatherData.min + "°");
+  $("#modTempMax").html(weatherData.max + "°");
+  $("#weatherDescription").html(weatherData.description);
 }
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
 function WeatherData(temp, icon, description, min, max) {
   this.temp = temp;
   this.icon = icon;
@@ -166,5 +171,4 @@ function mapTest() {
   output.empty();
   const input = $(".mapboxgl-ctrl");
   output.append(input[0]);
-  console.log(input);
 }
