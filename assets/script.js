@@ -85,7 +85,7 @@ function retrieveWeatherFromLocation(lat, lon) {
       lat +
       "&lon=" +
       lon +
-      "&appid=212be1e5713240df908c291b8fbba3f8&units=imperial"
+      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
   )
     .then(function (response) {
       return response.json();
@@ -140,7 +140,6 @@ function retrieveWeatherFromLocation(lat, lon) {
 function modalCall(event) {
   modal.style.display = "block";
   event.preventDefault();
-  console.log(event.target.dataset);
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat +
       latLonWeatherDataKeySeparator +
