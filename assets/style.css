@@ -1,4 +1,5 @@
 body {
+  margin: 0;
   background-color: #1d1b1b;
   color: #9facb8;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -11,39 +12,77 @@ h1 {
 }
 
 header {
+  background: radial-gradient(
+    circle,
+    rgba(41, 41, 41, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  color: #bfbfbf;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(91, 91, 91, 0.703);
+  margin-bottom: 2%;
+  margin-top: 1%;
+}
+
+#headerLogo{
+  margin: auto;
+  z-index: 3;
+  display: block;
+  position: relative;
+  padding-top: 1%;
+  height: 290px;
+  width: 310px;
+}
+
+footer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   background: radial-gradient(
     circle,
     rgba(41, 41, 41, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  color: #bfbfbf;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
-  margin-bottom: 2%;
-  margin-top: 1%;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  background: radial-gradient(
-    circle,
-    rgba(41, 41, 41, 1) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  color: #bfbfbf;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 15px;
+  color: #5c5c5c;
+  text-shadow: 1px 1px 3px #0e0e0e;
   margin-top: 2%;
   border-radius: 8px;
-  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
+  box-shadow: 0 6px 8px 5px rgba(61, 61, 61, 0.703);
+}
+
+footer a {
+  text-decoration: none;
+  color:rgba(215, 215, 215, 0.4)
+}
+
+#socialMedia {
+  text-align: center;
+  letter-spacing: 4px;
+  text-shadow: none;
+  width: 100%;
+  height: 20%;
+  opacity: 0.6;
+}
+
+.fa-solid, .fa-brands {
+  color: rgb(145, 145, 145);
+}
+
+.row {
+  margin-right: 0%;
+  margin-left: 0%;
 }
 
 .toggle {
   width: 90px;
   height: 36px;
+  float: right;
   position: relative;
-  display: block;
+  display: inline;
+  margin-top: -3%;
+  margin-right: 2%;
   background: #ebebeb;
   border-radius: 36px;
   box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4),
@@ -92,8 +131,8 @@ label:active:after {
     rgba(41, 41, 41, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  color: #bfbfbf;
-  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
+  color: #626262;
+  box-shadow: 0 4px 6px 0 rgba(91, 91, 91, 0.703);
 }
 
 .lightHeader {
@@ -115,7 +154,8 @@ label:active:after {
     rgba(41, 41, 41, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  color: #bfbfbf;
+  color: #5c5c5c;
+  text-shadow: 1px 1px 3px #0e0e0e;
   box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
@@ -128,7 +168,8 @@ label:active:after {
     rgba(255, 255, 255, 1) 0%,
     rgba(252, 226, 255, 1) 100%
   );
-  color: #484b6a;
+  color: #d0c9c9;
+  text-shadow: none;
   box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
 }
 
@@ -166,6 +207,7 @@ label:active:after {
   width: 60vw;
   height: 72vh;
   margin-left: 3%;
+  position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
 }
@@ -174,6 +216,7 @@ label:active:after {
   width: 60vw;
   height: 72vh;
   margin-left: 3%;
+  position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
@@ -220,4 +263,66 @@ label:active:after {
     width: 32.4px;
     height: 32.4px;
   }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  font-size: 17px;
+  color:#3a3a3a;
+  max-width: 30%;
+  height: 40%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#modalFlex {
+  display: flex;
+  justify-content: center;
+}
+
+.modalHeaders {
+  padding-right: 4%;
+  padding-left: 4%;
+  text-align: center;
+  font-weight: bold;
+  color: #50c8e6;
+}
+
+.modalText {
+  margin-top: 5%;
+  text-align: center;
+  font-weight: normal;
+  color: gray;
+}
+
+.separator {
+  height: 40px;
+  width: 1px;
+  background-color: #cccccc;
 }

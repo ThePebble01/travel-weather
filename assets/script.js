@@ -2,7 +2,16 @@ var themeSwitcher = $("#theme-switcher");
 var container = $("body");
 var header = $("#header");
 var footer = $("#footer");
+var headerLogo = $("#headerLogo");
 var mapShadow = $("#map");
+
+// modal (don't convert to jquery)
+
+var modal = document.getElementById("weatherModal");
+var modalDescription = document.getElementById("#modalDescription");
+var span = document.getElementsByClassName("close")[0];
+
+//
 
 var mode = "dark";
 var directions;
@@ -10,29 +19,29 @@ var map = {};
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
 
-$(function(){
+$(function () {
   mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHNzdGFkMDIiLCJhIjoiY2xpYnl1b3VjMGZ0ZDNwbjFxbmR3ejdqcSJ9.3mwOKhxYibQ9YZdqNZHErQ";
- map = new mapboxgl.Map({
-  container: "map",
-  style: "mapbox://styles/mapbox/streets-v12",
-  center: [-104.9903, 39.7392],
-  zoom: 12,
+    "pk.eyJ1IjoiZHNzdGFkMDIiLCJhIjoiY2xpYnl1b3VjMGZ0ZDNwbjFxbmR3ejdqcSJ9.3mwOKhxYibQ9YZdqNZHErQ";
+  map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v12",
+    center: [-104.9903, 39.7392],
+    zoom: 12,
+  });
+
+  directions = new MapboxDirections({
+    accessToken: mapboxgl.accessToken,
+    unit: "imperial",
+    profile: "mapbox/driving",
+    routePadding: 10,
+    interactive: false,
+  });
+
+  map.addControl(directions, "top-right");
+  moveDirections();
+
+  directions.on("route", handleRoute);
 });
-
-directions = new MapboxDirections({
-  accessToken: mapboxgl.accessToken,
-  unit: "imperial",
-  profile: "mapbox/driving",
-  routePadding: 10,
-  interactive: false,
-});
-
-map.addControl(directions, "top-right");
-moveDirections();
-
-directions.on("route", handleRoute);
-})
 
 function switchTheme() {
   if (mode === "dark") {
@@ -41,26 +50,37 @@ function switchTheme() {
     container.attr("class", "light");
     header.attr("class", "lightHeader");
     footer.attr("class", "lightFooter");
-    mapShadow.attr("class", "mapLight");
+    document.getElementById("headerLogo").src = "images/logoLight.png";
+    mapShadow.addClass("mapLight");
+    mapShadow.removeClass("mapDark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
     container.attr("class", "dark");
     header.attr("class", "darkHeader");
     footer.attr("class", "darkFooter");
-    mapShadow.attr("class", "mapDark");
+    document.getElementById("headerLogo").src = "images/logoDark.png";
+    mapShadow.addClass("mapDark");
+    mapShadow.removeClass("mapLight");
   }
 }
 function handleRoute() {
   resetMarkers();
   var steps = $(".mapbox-directions-step");
-  var routeDistance = $(".mapbox-directions-route-summary")[0].children[1].textContent;
+  var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
+    .textContent;
   var routeLength = routeDistance.substring(0, routeDistance.length - 2);
-  var coordinates = organizeCoordsRespectingStandardDeviation(routeLength, steps);
+  var coordinates = organizeCoordsRespectingStandardDeviation(
+    routeLength,
+    steps
+  );
   // Purge the console.log before deploying
   console.log("filtered coords");
   console.log(coordinates);
-  coordinates = appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates);
+  coordinates = appendCoordinatesForStepsWithLargeDistance(
+    routeLength,
+    coordinates
+  );
   console.log("coords after appendCoordinatesForStepsWithLargeDistance");
   console.log(coordinates);
   for (var j = 0; j < coordinates.length; j++) {
@@ -68,11 +88,11 @@ function handleRoute() {
     retrieveWeatherFromLocation(coordinates[j][0], coordinates[j][1]);
   }
 }
-function resetMarkers(){
+function resetMarkers() {
   var markers = $("div[data-marker]");
   if (markers) markers.remove();
 }
-function organizeCoordsRespectingStandardDeviation(routeLength, steps){
+function organizeCoordsRespectingStandardDeviation(routeLength, steps) {
   var coordinateResults = [];
   var stepLengths = new Map();
   var avgLength = routeLength / steps.length;
@@ -113,10 +133,10 @@ function organizeCoordsRespectingStandardDeviation(routeLength, steps){
   coordinateResults.splice(coordinateResults.length, 0, [
     destLngLatArr[1],
     destLngLatArr[0],
-  ])
+  ]);
   return coordinateResults;
 }
-function appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates){
+function appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates) {
   var priorPoint;
   var stepDistances = [];
   for (var i = 0; i < coordinates.length; i++) {
@@ -207,7 +227,17 @@ function retrieveWeatherFromLocation(lat, lon) {
         )
       );
 
-      markerEl.on("click", placeholderModalCall);
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      el.on("click", modalCall);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
@@ -219,23 +249,16 @@ function retrieveWeatherFromLocation(lat, lon) {
       console.log(error);
     });
 }
-function placeholderModalCall(event) {
+
+function modalCall(event) {
+  modal.style.display = "block";
   event.preventDefault();
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat + latLonKeySeparator + event.target.dataset.lon
   );
-  alert(
-    "Humidity: " +
-      weatherData.humidity +
-      "\nTemp: " +
-      weatherData.temp +
-      "\nVisibility: " +
-      weatherData.visibility +
-      "\nDescription: " +
-      weatherData.description +
-      "\nWind: " +
-      weatherData.windGust
-  );
+  $("#modHumid").html(weatherData.humidity + "%");
+  $("#modTemp").html(weatherData.temp + "°");
+  $("#modWind").html(weatherData.windGust + "%");
 }
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#instance_methods
 function WeatherData(humidity, temp, visibility, description, windGust) {
