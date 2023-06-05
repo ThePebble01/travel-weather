@@ -24,9 +24,9 @@ header {
   margin-top: 1%;
 }
 
-#headerLogo{
+#headerLogo {
   margin: auto;
-  z-index: 3;
+  z-index: 1;
   display: block;
   position: relative;
   padding-top: 1%;
@@ -43,7 +43,7 @@ footer {
     rgba(41, 41, 41, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 15px;
   color: #5c5c5c;
   text-shadow: 1px 1px 3px #0e0e0e;
@@ -54,7 +54,7 @@ footer {
 
 footer a {
   text-decoration: none;
-  color:rgba(215, 215, 215, 0.4)
+  color: rgba(215, 215, 215, 0.4);
 }
 
 #socialMedia {
@@ -66,7 +66,8 @@ footer a {
   opacity: 0.6;
 }
 
-.fa-solid, .fa-brands {
+.fa-solid,
+.fa-brands {
   color: rgb(145, 145, 145);
 }
 
@@ -83,11 +84,32 @@ footer a {
   display: inline;
   margin-top: -3%;
   margin-right: 2%;
-  background: #ebebeb;
+  background: #242424;
   border-radius: 36px;
   box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4),
     inset 0px -5px 15px rgba(255, 255, 255, 0.4);
   cursor: pointer;
+}
+
+.toggleLight {
+  background: #ebebeb;
+}
+
+.toggleDark {
+  background: #242424;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggleIcon {
+  display: inline-block;
+  font-size: 20px;
+  line-height: 26px;
+  color: #555;
+  transition: opacity 0.3s ease;
 }
 
 label:after {
@@ -108,7 +130,7 @@ label:after {
 .switchBoxChecked:after {
   left: 88.2px;
   transform: translateX(-100%);
-  background: linear-gradient(180deg, #ffcc89, #d8860b);
+  background: linear-gradient(180deg, #777, #3a3a3a);
 }
 
 label,
@@ -180,6 +202,13 @@ label:active:after {
   transition: 0.4s;
 }
 
+.iconNotes {
+  margin-left: 16px;
+  margin-top: 13px;
+  padding-left: 25%;
+  padding-top: 2px;
+}
+
 .mapStyle {
   width: 60vw;
   height: 72vh;
@@ -221,50 +250,6 @@ label:active:after {
   box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
-@media screen and (max-width: 767px) {
-  body {
-    font-size: 16px;
-  }
-
-  .mapStyle {
-    width: 100%;
-    height: 300px;
-    margin-left: 0;
-  }
-  .toggle {
-    width: 60px;
-    height: 24px;
-  }
-
-  label:after {
-    width: 21.6px;
-    height: 21.6px;
-    top: 1.3px;
-  }
-
-  .switchBoxChecked:after {
-    left: 58.2px;
-    transform: translateX(-100%);
-    background: linear-gradient(180deg, #ffcc89, #d8860b);
-  }
-
-  label:active:after {
-    width: 25px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .toggle {
-    width: 90px;
-    height: 36px;
-  }
-
-  label:after {
-    width: 32.4px;
-    height: 32.4px;
-  }
-}
-
 .modal {
   display: none;
   position: fixed;
@@ -281,8 +266,10 @@ label:active:after {
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
+  box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
+  border-radius: 33px;
   font-size: 17px;
-  color:#3a3a3a;
+  color: #3a3a3a;
   max-width: 30%;
   height: 40%;
 }
@@ -325,4 +312,116 @@ label:active:after {
   height: 40px;
   width: 1px;
   background-color: #cccccc;
+}
+
+@media screen and (max-width: 767px) {
+  body {
+    font-size: 16px;
+  }
+
+  .mapStyle {
+    width: 100%;
+    height: 300px;
+    margin-left: 0;
+  }
+  .toggle {
+    width: 60px;
+    height: 24px;
+    margin-top: -5%;
+    margin-right: 12%;
+  }
+
+  label:after {
+    width: 21.6px;
+    height: 21.6px;
+    top: 1.3px;
+  }
+
+  .switchBoxChecked:after {
+    left: 58.2px;
+    transform: translateX(-100%);
+    background: linear-gradient(180deg, #777, #3a3a3a);
+  }
+
+  label:active:after {
+    width: 23px;
+  }
+
+  .mapbox-directions-component,
+  .mapbox-directions-inputs {
+    width: 90vw;
+    margin: 9%;
+  }
+
+  .directions-control.directions-control-directions {
+    background: rgba(0, 0, 0, 0.75);
+    margin: 11px 0 0;
+    color: #fff;
+    width: 96vw;
+    height: 38vh;
+    border-radius: 8px;
+  }
+
+  .mapbox-directions-route-summary {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-left: auto;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 15px;
+    line-height: 28px;
+  }
+
+  .iconNotes {
+    margin-left: 16px;
+    margin-top: 13px;
+    padding-left: 18%;
+    padding-top: 2px;
+  }
+
+  #headerLogo {
+    margin: auto;
+    z-index: 1;
+    display: block;
+    position: relative;
+    padding-top: 1%;
+    height: 120px;
+    width: 141px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .toggle {
+    width: 70px;
+    height: 27px;
+    margin-top: -4%;
+    margin-right: 10%;
+  }
+
+  .switchBoxChecked:after {
+    left: 68.2px;
+    transform: translateX(-100%);
+    background: linear-gradient(180deg, #777, #3a3a3a);
+  }
+
+  label:after {
+    width: 24px;
+    height: 24px;
+  }
+
+  label:active:after {
+    width: 28px;
+  }
+
+  #headerLogo {
+    margin: auto;
+    z-index: 1;
+    display: block;
+    position: relative;
+    padding-top: 1%;
+    height: 152px;
+    width: 161px;
+  }
 }
