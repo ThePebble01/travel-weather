@@ -13,6 +13,7 @@ var directions;
 var map = {};
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
+var localStorageKey = "travelBuddySearchHistory";
 
 $(function () {
   mapboxgl.accessToken =
@@ -64,12 +65,117 @@ function switchTheme() {
   }
 }
 //http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}
-function saveOrginAndDestinationToHistory() {
-  console.log(directions.getDestination());
-  console.log(directions.getOrigin());
+//var destLngLatArr = directions.getDestination().geometry.coordinates;
+
+function prepareSearchHistory() {
+  var orginLngLatArr = directions.getOrigin().geometry.coordinates;
+  fetch(
+    "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
+      orginLngLatArr[1] +
+      "&lon=" +
+      orginLngLatArr[0] +
+      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      var reverseGeoOrigin = new ReverseGeocodeResult(
+        data[0].name,
+        data[0].state,
+        data[0].country,
+        orginLngLatArr[1],
+        orginLngLatArr[0]
+      );
+      retrieveDestinationAndSaveSearch(reverseGeoOrigin);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+function retrieveDestinationAndSaveSearch(reverseGeoOrigin) {
+  var destLngLatArr = directions.getDestination().geometry.coordinates;
+  fetch(
+    "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
+      destLngLatArr[1] +
+      "&lon=" +
+      destLngLatArr[0] +
+      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      var searchHistoryArr = [];
+      var reverseGeoDest = new ReverseGeocodeResult(
+        data[0].name,
+        data[0].state,
+        data[0].country,
+        destLngLatArr[1],
+        destLngLatArr[0]
+      );
+      var searchHistory = new SearchGeocodeResults(
+        reverseGeoOrigin,
+        reverseGeoDest
+      );
+      searchHistoryArr = JSON.parse(
+        localStorage.getItem(localStorageKey) //make global var
+      );
+      if (Array.isArray(searchHistoryArr)) {
+        searchHistoryArr.push(searchHistory);
+      } else {
+        searchHistoryArr = [];
+        searchHistoryArr.push(searchHistory);
+      }
+      localStorage.setItem(localStorageKey, JSON.stringify(searchHistoryArr));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+$("#tempHistory").on("click", handleSearchHistory);
+function handleSearchHistory(event) {
+  event.preventDefault();
+  var alertText = "";
+  var searchHistoryArr = JSON.parse(
+    localStorage.getItem(localStorageKey) //make global var
+  );
+  if (Array.isArray(searchHistoryArr)) {
+    for (var i = 0; i < searchHistoryArr.length; i++) {
+      var origin = searchHistoryArr[i].origin;
+      var destination = searchHistoryArr[i].destination;
+      alertText +=
+        origin.city +
+        ", " +
+        origin.state +
+        " " +
+        origin.country +
+        " - TO - " +
+        destination.city +
+        ", " +
+        destination.state +
+        " " +
+        destination.country +
+        "\n";
+    }
+    alert(alertText);
+  }
+}
+function SearchGeocodeResults(origin, destination) {
+  this.origin = origin;
+  this.destination = destination;
+}
+function ReverseGeocodeResult(city, state, country, lat, lng) {
+  this.city = city;
+  this.state = state;
+  this.country = country;
+  this.lat = lat;
+  this.lng = lng;
 }
 function handleRoute() {
-  saveOrginAndDestinationToHistory();
+  prepareSearchHistory();
   resetMarkers();
   var steps = $(".mapbox-directions-step");
   var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
