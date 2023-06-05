@@ -4,6 +4,7 @@ var header = $("#header");
 var footer = $("#footer");
 var headerLogo = $("#headerLogo");
 var mapShadow = $("#map");
+var toggleColor = $("#toggle");
 
 // modal (don't convert to jquery)
 
@@ -49,6 +50,8 @@ function switchTheme() {
     document.getElementById("headerLogo").src = "images/logoLight.png";
     mapShadow.addClass("mapLight");
     mapShadow.removeClass("mapDark");
+    toggleColor.addClass("toggleLight");
+    toggleColor.removeClass("toggleDark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
@@ -58,6 +61,8 @@ function switchTheme() {
     document.getElementById("headerLogo").src = "images/logoDark.png";
     mapShadow.addClass("mapDark");
     mapShadow.removeClass("mapLight");
+    toggleColor.addClass("toggleDark");
+    toggleColor.removeClass("toggleLight");
   }
 }
 
