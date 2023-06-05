@@ -4,13 +4,8 @@ var header = $("#header");
 var footer = $("#footer");
 var headerLogo = $("#headerLogo");
 var mapShadow = $("#map");
-
-// modal (don't convert to jquery)
-
 var modalEl = $("#weatherModal");
 var spanEl = $(".close")[0];
-
-//
 
 var mode = "dark";
 var directions;
