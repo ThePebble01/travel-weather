@@ -9,7 +9,13 @@ var spanEl = $(".close")[0];
 var toggleColor = $("#toggle");
 
 var mode = "dark";
-var directions;
+var directions = new MapboxDirections({
+  accessToken: mapboxgl.accessToken,
+  unit: "imperial",
+  profile: "mapbox/driving",
+  routePadding: 10,
+  interactive: false,
+});
 var map = {};
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
@@ -25,21 +31,13 @@ $(function () {
     zoom: 12,
   });
 
-  directions = new MapboxDirections({
-    accessToken: mapboxgl.accessToken,
-    unit: "imperial",
-    profile: "mapbox/driving",
-    routePadding: 10,
-    interactive: false,
-  });
-
   map.addControl(directions, "top-right");
   moveDirections();
 
   directions.on("route", handleRoute);
 });
 
-function switchTheme() {
+function handleSwitchTheme() {
   if (mode === "dark") {
     mode = "light";
     themeSwitcher.attr("class", "switchBox");
@@ -64,9 +62,65 @@ function switchTheme() {
     toggleColor.removeClass("toggleLight");
   }
 }
-//http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}
-//var destLngLatArr = directions.getDestination().geometry.coordinates;
 
+$("#tempHistory").on("click", handleSearchHistory);
+function handleSearchHistory(event) {
+  event.preventDefault();
+  var alertText = "";
+  var searchHistoryArr = JSON.parse(
+    localStorage.getItem(localStorageKey) //make global var
+  );
+  if (Array.isArray(searchHistoryArr)) {
+    for (var i = 0; i < searchHistoryArr.length; i++) {
+      var origin = searchHistoryArr[i].origin;
+      var destination = searchHistoryArr[i].destination;
+      alertText +=
+        origin.city +
+        ", " +
+        origin.state +
+        " " +
+        origin.country +
+        " - TO - " +
+        destination.city +
+        ", " +
+        destination.state +
+        " " +
+        destination.country +
+        "\n";
+    }
+    alert(alertText);
+  }
+}
+function SearchGeocodeResults(origin, destination) {
+  this.origin = origin;
+  this.destination = destination;
+}
+function ReverseGeocodeResult(city, state, country, lat, lng) {
+  this.city = city;
+  this.state = state;
+  this.country = country;
+  this.lat = lat;
+  this.lng = lng;
+}
+function handleRoute() {
+  prepareSearchHistory();
+  resetMarkers();
+  var steps = $(".mapbox-directions-step");
+  var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
+    .textContent;
+  var routeLength = routeDistance.substring(0, routeDistance.length - 2);
+  var routeCoordinates = organizeCoordsRespectingStandardDeviation(
+    routeLength,
+    steps
+  );
+  routeCoordinates = appendCoordinatesForStepsWithLargeDistance(
+    routeLength,
+    routeCoordinates
+  );
+  for (var j = 0; j < routeCoordinates.length; j++) {
+    retrieveWeatherFromLocation(routeCoordinates[j][0], routeCoordinates[j][1]);
+  }
+}
 function prepareSearchHistory() {
   var orginLngLatArr = directions.getOrigin().geometry.coordinates;
   fetch(
@@ -134,64 +188,6 @@ function retrieveDestinationAndSaveSearch(reverseGeoOrigin) {
     .catch(function (error) {
       console.log(error);
     });
-}
-$("#tempHistory").on("click", handleSearchHistory);
-function handleSearchHistory(event) {
-  event.preventDefault();
-  var alertText = "";
-  var searchHistoryArr = JSON.parse(
-    localStorage.getItem(localStorageKey) //make global var
-  );
-  if (Array.isArray(searchHistoryArr)) {
-    for (var i = 0; i < searchHistoryArr.length; i++) {
-      var origin = searchHistoryArr[i].origin;
-      var destination = searchHistoryArr[i].destination;
-      alertText +=
-        origin.city +
-        ", " +
-        origin.state +
-        " " +
-        origin.country +
-        " - TO - " +
-        destination.city +
-        ", " +
-        destination.state +
-        " " +
-        destination.country +
-        "\n";
-    }
-    alert(alertText);
-  }
-}
-function SearchGeocodeResults(origin, destination) {
-  this.origin = origin;
-  this.destination = destination;
-}
-function ReverseGeocodeResult(city, state, country, lat, lng) {
-  this.city = city;
-  this.state = state;
-  this.country = country;
-  this.lat = lat;
-  this.lng = lng;
-}
-function handleRoute() {
-  prepareSearchHistory();
-  resetMarkers();
-  var steps = $(".mapbox-directions-step");
-  var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
-    .textContent;
-  var routeLength = routeDistance.substring(0, routeDistance.length - 2);
-  var routeCoordinates = organizeCoordsRespectingStandardDeviation(
-    routeLength,
-    steps
-  );
-  routeCoordinates = appendCoordinatesForStepsWithLargeDistance(
-    routeLength,
-    routeCoordinates
-  );
-  for (var j = 0; j < routeCoordinates.length; j++) {
-    retrieveWeatherFromLocation(routeCoordinates[j][0], routeCoordinates[j][1]);
-  }
 }
 function resetMarkers() {
   var markers = $("div[data-marker]");
@@ -363,7 +359,7 @@ function WeatherData(temp, icon, description, min, max) {
   this.max = max;
 }
 
-themeSwitcher.on("click", switchTheme);
+themeSwitcher.on("click", handleSwitchTheme);
 
 // Justins work
 function moveDirections() {
