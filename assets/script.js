@@ -237,7 +237,7 @@ function retrieveWeatherFromLocation(lat, lon) {
         }
       };
 
-      el.on("click", modalCall);
+      markerEl.on("click", modalCall);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
