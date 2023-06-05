@@ -271,7 +271,7 @@ label:active:after {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
+.modal-content-light {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
@@ -283,6 +283,20 @@ label:active:after {
   max-width: 30%;
   height: 40%;
 }
+
+.modal-content-dark {
+  background-color: black;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
+  border-radius: 33px;
+  font-size: 17px;
+  color: #3a3a3a;
+  max-width: 30%;
+  height: 40%;
+}
+
 .temperature-container {
   display: flex;
 }
@@ -309,7 +323,7 @@ label:active:after {
 
 .modalHeaders {
   padding-right: 4%;
-  padding-left: 4%;
+  padding-left: 10%;
   text-align: center;
   font-weight: bold;
   color: #50c8e6;
@@ -407,6 +421,24 @@ label:active:after {
     margin-top: 13px;
     padding-left: 18%;
     padding-top: 2px;
+  }
+
+  .temperature-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
+    border-radius: 33px;
+    font-size: 17px;
+    color: #3a3a3a;
+    max-width: 30%;
+    height: 58%;
   }
 
   #headerLogo {

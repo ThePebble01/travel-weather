@@ -49,6 +49,8 @@ function handleSwitchTheme() {
     mapShadow.removeClass("mapDark");
     toggleColor.addClass("toggleLight");
     toggleColor.removeClass("toggleDark");
+    $("#modalCont").addClass("modal-content-light");
+    $("#modalCont").removeClass("modal-content-dark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
@@ -60,6 +62,8 @@ function handleSwitchTheme() {
     mapShadow.removeClass("mapLight");
     toggleColor.addClass("toggleDark");
     toggleColor.removeClass("toggleLight");
+    $("#modalCont").addClass("modal-content-dark");
+    $("#modalCont").removeClass("modal-content-light");
   }
 }
 $("#tempRouteFromHistory").on("click", handleRandomRoute);
