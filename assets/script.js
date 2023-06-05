@@ -50,6 +50,8 @@ function switchTheme() {
     mapShadow.removeClass("mapDark");
     toggleColor.addClass("toggleLight");
     toggleColor.removeClass("toggleDark");
+    $("#modalCont").addClass("modal-content-light");
+    $("#modalCont").removeClass("modal-content-dark");
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
@@ -61,6 +63,8 @@ function switchTheme() {
     mapShadow.removeClass("mapLight");
     toggleColor.addClass("toggleDark");
     toggleColor.removeClass("toggleLight");
+    $("#modalCont").addClass("modal-content-dark");
+    $("#modalCont").removeClass("modal-content-light");
   }
 }
 //http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}
