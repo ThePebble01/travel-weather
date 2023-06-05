@@ -44,7 +44,9 @@ function handleSwitchTheme() {
     container.attr("class", "light");
     header.attr("class", "lightHeader");
     footer.attr("class", "lightFooter");
-    $("#headerLogo").src = "images/logoLight.png";
+    console.log($("#headerLogo"));
+    console.log($("#headerLogo")[0]);
+    $("#headerLogo").attr("src", "images/logoLight.png");
     mapShadow.addClass("mapLight");
     mapShadow.removeClass("mapDark");
     toggleColor.addClass("toggleLight");
@@ -57,7 +59,7 @@ function handleSwitchTheme() {
     container.attr("class", "dark");
     header.attr("class", "darkHeader");
     footer.attr("class", "darkFooter");
-    $("#headerLogo").src = "images/logoDark.png";
+    $("#headerLogo").attr("src", "images/logoDark.png");
     mapShadow.addClass("mapDark");
     mapShadow.removeClass("mapLight");
     toggleColor.addClass("toggleDark");
