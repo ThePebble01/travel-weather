@@ -17,8 +17,7 @@
   </head>
   <body>
     <header class="container-fluid p-1" id="header">
-      <button id="tempHistory">SEARCH History</button>
-      <button id="tempRouteFromHistory">ROUTE RANDOMLY</button>
+      <button id="tempHistory">Show Search History</button>
       <img src="images/logoDark.png" id="headerLogo">
       <div class="row toggle iconContainer" id="toggle"><label class="switch col switchBoxChecked" id="theme-switcher">
       </label>
@@ -32,7 +31,7 @@
           <div class="mapStyle" id="map"></div>
           <div  id="route-instructions-container">
           <ol id="route-instructions"></ol>
-          <p class="iconNotes">Click on a Weather Icon to view weather details</p>
+          <p class="iconNotes">Click on a weather icon on the map to view details about the weather at that location.</p>
           </div>
       </section>
       <div class="col-lg-4" id="mapTest"></div>
@@ -41,7 +40,7 @@
     <div id="weatherModal" class="modal">
       <div id="modalCont" class="modal-content-dark">
         <span class="close">&times;</span>
-        <div id="modalFlex">
+        <div class="modalFlex">
           <div class ="temperature-container">
             <div class="modalHeaders">Current:<p class="modalText" id="modTemp"></p></div> <br>
             <div class="modalHeaders">Low:<p class="modalText" id="modTempMin"></p></div> <br>
@@ -52,13 +51,13 @@
         </div>
       </div>
     </div>
-      </div>
-    </div>
 
-        <div id="myModal" class="modal">
-      <div class="modal-content">
+    <div id="searchHistoryModal" class="modal">
+      <div class="modal-content"> <!--TODO add a class to be selected in js and update the background color of all modals when handleSwitchTheme is called-->
         <span class="close">&times;</span>
-        <p>Placeholder text</p>
+        <div class="modalFlex">
+          <ol id="priorSearches"></ol>
+        </div>
       </div>
     </div>
   

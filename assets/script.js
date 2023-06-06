@@ -4,8 +4,9 @@ var header = $("#header");
 var footer = $("#footer");
 var headerLogo = $("#headerLogo");
 var mapShadow = $("#map");
-var modalEl = $("#weatherModal");
-var spanEl = $(".close")[0];
+var weatherModalEl = $("#weatherModal");
+var searchHistoryModalEl = $("#searchHistoryModal");
+var closeModalEl = $(".close");
 var toggleColor = $("#toggle");
 
 var mode = "dark";
@@ -33,10 +34,16 @@ $(function () {
   });
   map.addControl(directions, "top-right");
   moveDirections();
-
   directions.on("route", handleRoute);
 });
 
+// Justins work
+function moveDirections() {
+  const output = $("#mapTest");
+  output.empty();
+  const input = $(".mapboxgl-ctrl");
+  output.append(input[0]);
+}
 function handleSwitchTheme() {
   if (mode === "dark") {
     mode = "light";
@@ -68,55 +75,67 @@ function handleSwitchTheme() {
     $("#modalCont").removeClass("modal-content-light");
   }
 }
-$("#tempRouteFromHistory").on("click", handleRandomRoute);
-function handleRandomRoute() {
-  var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
-  if (Array.isArray(searchHistoryArr)) {
-    var origin = searchHistoryArr[0].origin;
-    console.log(origin);
-    var destination = searchHistoryArr[0].destination;
-    console.log(destination);
-    directions.setOrigin([origin.lng, origin.lat]);
-    directions.setDestination([destination.lng, destination.lat]);
-  }
+function handleSearchHistorySelect(event) {
+  event.preventDefault();
+  console.log(event.target);
+  //something something look up event propagation - the line above is logged 10+ times
+  var orginDestinationNameArr = event.target.textContent.split(" - TO - "); //BETTER CHARS TO SPLIT OFF OF?
+  var orginLat = Number.parseFloat(event.target.dataset.orginlat);
+  var orginLng = Number.parseFloat(event.target.dataset.orginlng);
+  var destinationLat = Number.parseFloat(event.target.dataset.destinationlat);
+  var destinationLng = Number.parseFloat(event.target.dataset.destinationlng);
+  directions.setOrigin([orginLng, orginLat]);
+  directions.setDestination([destinationLng, destinationLat]);
+  var originInputText = $("#mapbox-directions-origin-input")[0].children[0]
+    .children[1];
+  originInputText.value = orginDestinationNameArr[0];
+  var destinationInputText = $("#mapbox-directions-destination-input")[0]
+    .children[0].children[1];
+  destinationInputText.value = orginDestinationNameArr[1];
+  searchHistoryModalEl.css("display", "none");
 }
+// OH GOD I HOPE WE REPLACE THIS
 $("#tempHistory").on("click", handleSearchHistory);
 function handleSearchHistory(event) {
   event.preventDefault();
-  var alertText = "";
+  searchHistoryModalEl.css("display", "block");
+  var searchResultContainer = $("#priorSearches");
   var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
   if (Array.isArray(searchHistoryArr)) {
     for (var i = 0; i < searchHistoryArr.length; i++) {
       var origin = searchHistoryArr[i].origin;
       var destination = searchHistoryArr[i].destination;
-      alertText +=
+      var searchEntry = $("<li>");
+      searchEntry.addClass("modalText");
+      searchEntry.attr("data-city", origin.city);
+      searchEntry.attr("data-state", origin.state);
+      searchEntry.attr("data-orginLat", origin.lat);
+      searchEntry.attr("data-orginLng", origin.lng);
+      searchEntry.attr("data-destinationLat", destination.lat);
+      searchEntry.attr("data-destinationLng", destination.lng);
+      searchEntry.text(
         origin.city +
-        ", " +
-        origin.state +
-        " " +
-        origin.country +
-        " - TO - " +
-        destination.city +
-        ", " +
-        destination.state +
-        " " +
-        destination.country +
-        "\n";
+          ", " +
+          origin.state +
+          " " +
+          origin.country +
+          " - TO - " +
+          destination.city +
+          ", " +
+          destination.state +
+          " " +
+          destination.country
+      );
+      searchResultContainer.append(searchEntry);
+      $("li").on("click", handleSearchHistorySelect);
     }
-    alert(alertText);
+  } else {
+    var noResults = $("<li>"); //PLACEHOLDER - BETTER BRAINS FILL MESSAGE TO TELL VISITOR THEY NO SEARCH
+    noResults.text("No search history found.");
+    searchResultContainer.append(noResults);
   }
 }
-function SearchGeocodeResults(origin, destination) {
-  this.origin = origin;
-  this.destination = destination;
-}
-function ReverseGeocodeResult(city, state, country, lat, lng) {
-  this.city = city;
-  this.state = state;
-  this.country = country;
-  this.lat = lat;
-  this.lng = lng;
-}
+// END OF OH GOD I HOPE WE REPLACE THIS
 function handleRoute() {
   prepareSearchHistory();
   resetMarkers();
@@ -324,18 +343,7 @@ function retrieveWeatherFromLocation(lat, lon) {
           data.daily[0].temp.max
         )
       );
-
-      spanEl.onclick = function () {
-        modalEl.css("display", "none");
-      };
-
-      window.onclick = function (event) {
-        if (event.target == modalEl[0]) {
-          modalEl.css("display", "none");
-        }
-      };
-
-      markerEl.on("click", handleModalCall);
+      markerEl.on("click", handleMarkerModalCall);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
@@ -347,9 +355,12 @@ function retrieveWeatherFromLocation(lat, lon) {
       console.log(error);
     });
 }
-
-function handleModalCall(event) {
-  modalEl.css("display", "block");
+function handleModalClose(event) {
+  event.preventDefault();
+  event.target.parentNode.parentNode.style.setProperty("display", "none");
+}
+function handleMarkerModalCall(event) {
+  weatherModalEl.css("display", "block");
   event.preventDefault();
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat + latLonKeySeparator + event.target.dataset.lon
@@ -364,6 +375,14 @@ function handleModalCall(event) {
   $("#modTempMax").html(weatherData.max + "°");
   $("#weatherDescription").html(weatherData.description);
 }
+
+closeModalEl.on("click", handleModalClose);
+themeSwitcher.on("click", handleSwitchTheme);
+window.onclick = function (event) {
+  if (event.target.classList.contains("modal")) {
+    event.target.style.display = "none";
+  }
+};
 function WeatherData(temp, icon, description, min, max) {
   this.temp = temp;
   this.icon = icon;
@@ -371,13 +390,14 @@ function WeatherData(temp, icon, description, min, max) {
   this.min = min;
   this.max = max;
 }
-
-themeSwitcher.on("click", handleSwitchTheme);
-
-// Justins work
-function moveDirections() {
-  const output = $("#mapTest");
-  output.empty();
-  const input = $(".mapboxgl-ctrl");
-  output.append(input[0]);
+function SearchGeocodeResults(origin, destination) {
+  this.origin = origin;
+  this.destination = destination;
+}
+function ReverseGeocodeResult(city, state, country, lat, lng) {
+  this.city = city;
+  this.state = state;
+  this.country = country;
+  this.lat = lat;
+  this.lng = lng;
 }
