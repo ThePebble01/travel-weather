@@ -4,69 +4,116 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="assets/reset.css" />
     <link rel="stylesheet" href="assets/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<script src="https://kit.fontawesome.com/d7ffd59b37.js" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script
+      src="https://kit.fontawesome.com/d7ffd59b37.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <title>RoadTrip Buddy</title>
   </head>
   <body>
     <header class="container-fluid p-1" id="header">
-      <button id="tempHistory">Show Search History</button>
-      <img src="images/logoDark.png" id="headerLogo">
-      <div class="row toggle iconContainer" id="toggle"><label class="switch col switchBoxChecked" id="theme-switcher">
-      </label>
-      <span class="toggleIconSun">☀︎</span>
-      <span class="toggleIconMoon">☾</span>
+      <img src="images/logoDark.png" id="headerLogo" />
+
+      <div class="row toggle iconContainer" id="toggle">
+        <label class="switch col switchBoxChecked" id="theme-switcher"> </label>
+        <span class="toggleIconSun">☀︎</span>
+        <span class="toggleIconMoon">☾</span>
+      </div>
+      <div class="dropdown">
+        <button
+          class="btn btn-primary dropdown-toggle"
+          type="button"
+          id="searchHistoryModalBtn"
+          data-toggle="dropdown"
+        >
+          Saved Searches
+        </button>
+        <ul class="dropdown-menu" id="dropdown-menu-dark">
+          <ol id="priorSearches"></ol>
+        </ul>
+      </div>
     </header>
+
     <div class="row" id="container">
       <section class="col-lg-8">
-          <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
-          <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
-          <div class="mapStyle" id="map"></div>
-          <div  id="route-instructions-container">
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+        <link
+          rel="stylesheet"
+          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css"
+          type="text/css"
+        />
+        <div class="mapStyle" id="map"></div>
+        <div id="route-instructions-container">
           <ol id="route-instructions"></ol>
-          <p class="iconNotes">Click on a weather icon on the map to view details about the weather at that location.</p>
-          </div>
+          <p class="iconNotes">
+            Click on a weather icon on the map to view details about the weather
+            at that location
+          </p>
+        </div>
       </section>
       <div class="col-lg-4" id="mapTest"></div>
-  </div>
-      
+    </div>
+
     <div id="weatherModal" class="modal">
       <div id="modalCont" class="modal-content-dark">
         <span class="close">&times;</span>
         <div class="modalFlex">
-          <div class ="temperature-container">
-            <div class="modalHeaders">Current:<p class="modalText" id="modTemp"></p></div> <br>
-            <div class="modalHeaders">Low:<p class="modalText" id="modTempMin"></p></div> <br>
-            <div class="modalHeaders">High:<p class="modalText" id="modTempMax"></p></div> <br>
+          <div class="temperature-container">
+            <div class="modalHeaders">
+              Current:
+              <p class="modalText" id="modTemp"></p>
+            </div>
+            <br />
+            <div class="modalHeaders">
+              Low:
+              <p class="modalText" id="modTempMin"></p>
+            </div>
+            <br />
+            <div class="modalHeaders">
+              High:
+              <p class="modalText" id="modTempMax"></p>
+            </div>
+            <br />
           </div>
-          <div class="modalHeaders"><img id="weather-icon"></div> <br>
-          <div class="modalHeaders">Description <p class="modalText" id="weatherDescription"></p></div> <br>
+          <div class="modalHeaders"><img id="weather-icon" /></div>
+          <br />
+          <div class="modalHeaders">
+            Description
+            <p class="modalText" id="weatherDescription"></p>
+          </div>
+          <br />
         </div>
       </div>
     </div>
 
-    <div id="searchHistoryModal" class="modal">
-      <div class="modal-content"> <!--TODO add a class to be selected in js and update the background color of all modals when handleSwitchTheme is called-->
-        <span class="close">&times;</span>
-        <div class="modalFlex">
-          <ol id="priorSearches"></ol>
-        </div>
-      </div>
-    </div>
-  
     <footer class="container-fluid p-3" id="footer">
-      <span id="socialMedia"> <a href="https://github.com/DSStad/travel-weather"><i class="fa-brands fa-github"></i></a> 
+      <span id="socialMedia">
+        <a href="https://github.com/DSStad/travel-weather"
+          ><i class="fa-brands fa-github"></i
+        ></a>
         <a href="#"><i class="fa-brands fa-twitter"></i> </a>
         <a href="#"><i class="fa-brands fa-facebook"></i> </a>
-        <a href="#"><i class="fa-solid fa-envelope"></i></a></span><br>
-      © 2023 DU-ers, Colorado & New Mexico, USA</footer>
+        <a href="#"><i class="fa-solid fa-envelope"></i></a></span
+      ><br />
+      © 2023 DU-ers, Colorado & New Mexico, USA
+    </footer>
     <script
       src="https://code.jquery.com/jquery-3.7.0.min.js"
       crossorigin="anonymous"

@@ -60,6 +60,8 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleDark");
     $("#modalCont").addClass("modal-content-light");
     $("#modalCont").removeClass("modal-content-dark");
+    document.getElementById("dropdown-menu-dark").style.backgroundColor =
+      "white";
   } else {
     mode = "dark";
     themeSwitcher.attr("class", "switchBoxChecked");
@@ -73,6 +75,8 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleLight");
     $("#modalCont").addClass("modal-content-dark");
     $("#modalCont").removeClass("modal-content-light");
+    document.getElementById("dropdown-menu-dark").style.backgroundColor =
+      "black";
   }
 }
 function handleSearchHistorySelect(event) {
@@ -95,7 +99,7 @@ function handleSearchHistorySelect(event) {
   searchHistoryModalEl.css("display", "none");
 }
 // OH GOD I HOPE WE REPLACE THIS
-$("#tempHistory").on("click", handleSearchHistory);
+$("#searchHistoryModalBtn").on("click", handleSearchHistory);
 function handleSearchHistory(event) {
   event.preventDefault();
   searchHistoryModalEl.css("display", "block");
@@ -113,19 +117,7 @@ function handleSearchHistory(event) {
       searchEntry.attr("data-orginLng", origin.lng);
       searchEntry.attr("data-destinationLat", destination.lat);
       searchEntry.attr("data-destinationLng", destination.lng);
-      searchEntry.text(
-        origin.city +
-          ", " +
-          origin.state +
-          " " +
-          origin.country +
-          " - TO - " +
-          destination.city +
-          ", " +
-          destination.state +
-          " " +
-          destination.country
-      );
+      searchEntry.text(origin.city + " - TO - " + destination.city);
       searchResultContainer.append(searchEntry);
       $("li").on("click", handleSearchHistorySelect);
     }
