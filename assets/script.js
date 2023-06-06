@@ -47,12 +47,11 @@ function moveDirections() {
 function handleSwitchTheme() {
   if (mode === "dark") {
     mode = "light";
-    themeSwitcher.attr("class", "switchBox");
-    container.attr("class", "light");
-    header.attr("class", "lightHeader");
-    footer.attr("class", "lightFooter");
-    console.log($("#headerLogo"));
-    console.log($("#headerLogo")[0]);
+    themeSwitcher.addClass("switchBox");
+    container.removeClass("dark");
+    container.addClass("light");
+    header.addClass("lightHeader");
+    footer.addClass("lightFooter");
     $("#headerLogo").attr("src", "images/logoLight.png");
     mapShadow.addClass("mapLight");
     mapShadow.removeClass("mapDark");
@@ -64,10 +63,11 @@ function handleSwitchTheme() {
       "white";
   } else {
     mode = "dark";
-    themeSwitcher.attr("class", "switchBoxChecked");
-    container.attr("class", "dark");
-    header.attr("class", "darkHeader");
-    footer.attr("class", "darkFooter");
+    themeSwitcher.addClass("switchBoxChecked");
+    container.removeClass("light");
+    container.addClass("dark");
+    header.addClass("darkHeader");
+    footer.addClass("darkFooter");
     $("#headerLogo").attr("src", "images/logoDark.png");
     mapShadow.addClass("mapDark");
     mapShadow.removeClass("mapLight");
@@ -81,9 +81,7 @@ function handleSwitchTheme() {
 }
 function handleSearchHistorySelect(event) {
   event.preventDefault();
-  console.log(event.target);
-  //something something look up event propagation - the line above is logged 10+ times
-  var orginDestinationNameArr = event.target.textContent.split(" - TO - "); //BETTER CHARS TO SPLIT OFF OF?
+  var orginDestinationNameArr = event.target.textContent.split(" - TO - ");
   var orginLat = Number.parseFloat(event.target.dataset.orginlat);
   var orginLng = Number.parseFloat(event.target.dataset.orginlng);
   var destinationLat = Number.parseFloat(event.target.dataset.destinationlat);
@@ -98,12 +96,10 @@ function handleSearchHistorySelect(event) {
   destinationInputText.value = orginDestinationNameArr[1];
   searchHistoryModalEl.css("display", "none");
 }
-// OH GOD I HOPE WE REPLACE THIS
-$("#searchHistoryModalBtn").on("click", handleSearchHistory);
 function handleSearchHistory(event) {
   event.preventDefault();
+  var searchResultContainer = $("#dropdown-menu-dark");
   searchHistoryModalEl.css("display", "block");
-  var searchResultContainer = $("#priorSearches");
   var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
   if (Array.isArray(searchHistoryArr)) {
     for (var i = 0; i < searchHistoryArr.length; i++) {
@@ -122,12 +118,10 @@ function handleSearchHistory(event) {
       $("li").on("click", handleSearchHistorySelect);
     }
   } else {
-    var noResults = $("<li>"); //PLACEHOLDER - BETTER BRAINS FILL MESSAGE TO TELL VISITOR THEY NO SEARCH
-    noResults.text("No search history found.");
-    searchResultContainer.append(noResults);
+    if (mode == "dark") searchResultContainer.css("color", "white");
+    searchResultContainer.text("No search history.");
   }
 }
-// END OF OH GOD I HOPE WE REPLACE THIS
 function handleRoute() {
   prepareSearchHistory();
   resetMarkers();
@@ -370,6 +364,7 @@ function handleMarkerModalCall(event) {
 
 closeModalEl.on("click", handleModalClose);
 themeSwitcher.on("click", handleSwitchTheme);
+$("#searchHistoryModalBtn").on("click", handleSearchHistory);
 window.onclick = function (event) {
   if (event.target.classList.contains("modal")) {
     event.target.style.display = "none";
