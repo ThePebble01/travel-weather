@@ -60,7 +60,7 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleDark");
     $("#modalCont").addClass("modal-content-light");
     $("#modalCont").removeClass("modal-content-dark");
-    document.getElementById("dropdown-menu").style.backgroundColor = "white";
+    $("#dropdown-menu").css("backgroundColor", "white");
   } else {
     mode = "dark";
     themeSwitcher.removeClass("switchBox");
@@ -78,12 +78,12 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleLight");
     $("#modalCont").addClass("modal-content-dark");
     $("#modalCont").removeClass("modal-content-light");
-    document.getElementById("dropdown-menu").style.backgroundColor = "black";
+    $("#dropdown-menu").css("backgroundColor", "black");
   }
 }
 function handleSearchHistorySelect(event) {
   event.preventDefault();
-  var orginDestinationNameArr = event.target.textContent.split(" - TO - ");
+  var orginDestinationNameArr = event.target.textContent.split(" - To - ");
   var orginLat = Number.parseFloat(event.target.dataset.orginlat);
   var orginLng = Number.parseFloat(event.target.dataset.orginlng);
   var destinationLat = Number.parseFloat(event.target.dataset.destinationlat);
