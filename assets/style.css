@@ -315,7 +315,7 @@ label:active:after {
   cursor: pointer;
 }
 
-#modalFlex {
+.modalFlex {
   display: flex;
   flex-direction: column;
   justify-content: center;
