@@ -47,6 +47,7 @@ function moveDirections() {
 function handleSwitchTheme() {
   if (mode === "dark") {
     mode = "light";
+    themeSwitcher.removeClass("switchBoxChecked");
     themeSwitcher.addClass("switchBox");
     container.removeClass("dark");
     container.addClass("light");
@@ -62,6 +63,7 @@ function handleSwitchTheme() {
     document.getElementById("dropdown-menu").style.backgroundColor = "white";
   } else {
     mode = "dark";
+    themeSwitcher.removeClass("switchBox");
     themeSwitcher.addClass("switchBoxChecked");
     container.removeClass("light");
     container.addClass("dark");
@@ -99,9 +101,13 @@ function handleSearchHistorySelect(event) {
 function handleSearchHistory(event) {
   event.preventDefault();
   var searchResultContainer = $("#dropdown-menu");
+  searchResultContainer.text("");
   searchHistoryModalEl.css("display", "block");
   var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
   if (Array.isArray(searchHistoryArr)) {
+    for (var i = 0; i < searchResultContainer[0].children; i++) {
+      searchResultContainer[0].children[i].remove();
+    }
     for (var i = 0; i < searchHistoryArr.length; i++) {
       var origin = searchHistoryArr[i].origin;
       var destination = searchHistoryArr[i].destination;
@@ -118,7 +124,11 @@ function handleSearchHistory(event) {
       $("li").on("click", handleSearchHistorySelect);
     }
   } else {
-    if (mode == "dark") searchResultContainer.css("color", "white");
+    if (mode == "dark") {
+      searchResultContainer.css("color", "white");
+    } else {
+      searchResultContainer.css("color", "black");
+    }
     searchResultContainer.text("No search history.");
   }
 }
