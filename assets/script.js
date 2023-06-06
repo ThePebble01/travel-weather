@@ -65,7 +65,9 @@ function handleSwitchTheme() {
     themeSwitcher.addClass("switchBoxChecked");
     container.removeClass("light");
     container.addClass("dark");
+    header.removeClass("lightHeader");
     header.addClass("darkHeader");
+    footer.removeClass("lightFooter");
     footer.addClass("darkFooter");
     $("#headerLogo").attr("src", "images/logoDark.png");
     mapShadow.addClass("mapDark");
@@ -96,7 +98,7 @@ function handleSearchHistorySelect(event) {
 }
 function handleSearchHistory(event) {
   event.preventDefault();
-  var searchResultContainer = $("#dropdown-menu-dark");
+  var searchResultContainer = $("#dropdown-menu");
   searchHistoryModalEl.css("display", "block");
   var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
   if (Array.isArray(searchHistoryArr)) {
