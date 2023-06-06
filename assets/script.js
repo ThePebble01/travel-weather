@@ -59,8 +59,7 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleDark");
     $("#modalCont").addClass("modal-content-light");
     $("#modalCont").removeClass("modal-content-dark");
-    document.getElementById("dropdown-menu-dark").style.backgroundColor =
-      "white";
+    document.getElementById("dropdown-menu").style.backgroundColor = "white";
   } else {
     mode = "dark";
     themeSwitcher.addClass("switchBoxChecked");
@@ -75,8 +74,7 @@ function handleSwitchTheme() {
     toggleColor.removeClass("toggleLight");
     $("#modalCont").addClass("modal-content-dark");
     $("#modalCont").removeClass("modal-content-light");
-    document.getElementById("dropdown-menu-dark").style.backgroundColor =
-      "black";
+    document.getElementById("dropdown-menu").style.backgroundColor = "black";
   }
 }
 function handleSearchHistorySelect(event) {
