@@ -1,12 +1,17 @@
 # Road Trip Buddy
 
+## Refactor
+
+- De-duplicate Saved Searches
+
+- Issue a callout to for points along the route instead of scraping them from the webpage.
+  https://api.mapbox.com/directions/v5/{profile}/{coordinates}
+
+- Utilize proper variable declarations
+
 ## Description
 
 Our app allows users to view a map for their road trip, with weather results for cities provided along their route. Instead of mapping out their journey and then performing separate browser searches for weather information per each location, users can now simply set their destination in Road Buddy and view the weather they will be encountering along their trip, all in one convenient place.
-
-## Installation
-
-NA
 
 ## Usage
 
@@ -24,11 +29,6 @@ To use Road Trip Buddy, open your browser to https://dsstad.github.io/travel-wea
 - Marlena Moore (github.com/Ms-Marlena)
 - Madeline Moore (github.com/MsJamesM)
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change. Please make sure to update tests as appropriate.
-
 ## Credits
 
 https://openweathermap.org
@@ -36,7 +36,3 @@ https://openweathermap.org
 https://mapbox.com
 
 https://getbootstrap.com
-
-## License
-
-NA
