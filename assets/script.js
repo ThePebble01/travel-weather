@@ -1,4 +1,3 @@
-var themeSwitcher = $("#theme-switcher");
 var container = $("body");
 var header = $("#header");
 var footer = $("#footer");
@@ -9,7 +8,6 @@ var searchHistoryModalEl = $("#searchHistoryModal");
 var closeModalEl = $(".close");
 var toggleColor = $("#toggle");
 
-var mode = "dark";
 var directions;
 var map = {};
 var routeWeatherData = new Map();
@@ -37,50 +35,13 @@ $(function () {
   directions.on("route", handleRoute);
 });
 
-// Justins work
 function moveDirections() {
   const output = $("#mapTest");
   output.empty();
   const input = $(".mapboxgl-ctrl");
   output.append(input[0]);
 }
-function handleSwitchTheme() {
-  if (mode === "dark") {
-    mode = "light";
-    themeSwitcher.removeClass("switchBoxChecked");
-    themeSwitcher.addClass("switchBox");
-    container.removeClass("dark");
-    container.addClass("light");
-    header.addClass("lightHeader");
-    footer.addClass("lightFooter");
-    $("#headerLogo").attr("src", "images/logoLight.png");
-    mapShadow.addClass("mapLight");
-    mapShadow.removeClass("mapDark");
-    toggleColor.addClass("toggleLight");
-    toggleColor.removeClass("toggleDark");
-    $("#modalCont").addClass("modal-content-light");
-    $("#modalCont").removeClass("modal-content-dark");
-    $("#dropdown-menu").css("backgroundColor", "white");
-  } else {
-    mode = "dark";
-    themeSwitcher.removeClass("switchBox");
-    themeSwitcher.addClass("switchBoxChecked");
-    container.removeClass("light");
-    container.addClass("dark");
-    header.removeClass("lightHeader");
-    header.addClass("darkHeader");
-    footer.removeClass("lightFooter");
-    footer.addClass("darkFooter");
-    $("#headerLogo").attr("src", "images/logoDark.png");
-    mapShadow.addClass("mapDark");
-    mapShadow.removeClass("mapLight");
-    toggleColor.addClass("toggleDark");
-    toggleColor.removeClass("toggleLight");
-    $("#modalCont").addClass("modal-content-dark");
-    $("#modalCont").removeClass("modal-content-light");
-    $("#dropdown-menu").css("backgroundColor", "black");
-  }
-}
+
 function handleSearchHistorySelect(event) {
   event.preventDefault();
   var orginDestinationNameArr = event.target.textContent.split(" - To - ");
@@ -124,11 +85,7 @@ function handleSearchHistory(event) {
       $("li").on("click", handleSearchHistorySelect);
     }
   } else {
-    if (mode == "dark") {
-      searchResultContainer.css("color", "white");
-    } else {
-      searchResultContainer.css("color", "black");
-    }
+    searchResultContainer.css("color", "white");
     searchResultContainer.text("No search history.");
   }
 }
@@ -373,7 +330,6 @@ function handleMarkerModalCall(event) {
 }
 
 closeModalEl.on("click", handleModalClose);
-themeSwitcher.on("click", handleSwitchTheme);
 $("#searchHistoryModalBtn").on("click", handleSearchHistory);
 window.onclick = function (event) {
   if (event.target.classList.contains("modal")) {

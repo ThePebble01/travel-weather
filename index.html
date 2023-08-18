@@ -31,12 +31,7 @@
   <body>
     <header class="container-fluid p-1" id="header">
       <img src="images/logoDark.png" id="headerLogo" />
-
-      <div class="row toggle iconContainer" id="toggle">
-        <label class="switch col switchBoxChecked" id="theme-switcher"> </label>
-        <span class="toggleIconSun">☀︎</span>
-        <span class="toggleIconMoon">☾</span>
-      </div>
+      <!-- move saved searches to the right of the screen, create a container for it and entering start/end -->
       <div class="dropdown">
         <button
           class="btn btn-primary dropdown-toggle"
@@ -62,8 +57,11 @@
         <div id="route-instructions-container">
           <ol id="route-instructions"></ol>
           <p class="iconNotes">
-            Click on a weather icon on the map to view details about the weather
-            at that location
+            <ol>
+              <li>Enter a starting point and destination.</li>
+              <li>After entering a destination, your route will appear on the map along with icons representing the weather along the way.</li>
+              <li>Clicking on a weather icon will display more information about the weather at that location.</li> 
+            </ol>
           </p>
         </div>
       </section>
@@ -104,13 +102,10 @@
 
     <footer class="container-fluid p-3" id="footer">
       <span id="socialMedia">
-        <a href="https://github.com/DSStad/travel-weather"
+        <a href="https://github.com/ThePebble01/"
           ><i class="fa-brands fa-github"></i
         ></a>
-        <a href="#"><i class="fa-brands fa-twitter"></i> </a>
-        <a href="#"><i class="fa-brands fa-facebook"></i> </a>
-        <a href="#"><i class="fa-solid fa-envelope"></i></a></span
-      ><br />
+        <br />
       © 2023 DU-ers, Colorado & New Mexico, USA
     </footer>
     <script
