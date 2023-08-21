@@ -32,6 +32,7 @@
     <header class="container-fluid p-1" id="header">
       <img src="images/logoDark.png" id="headerLogo" />
       <!-- move saved searches to the right of the screen, create a container for it and entering start/end -->
+      <section id="util-container">
       <div class="dropdown">
         <button
           class="btn btn-primary dropdown-toggle"
@@ -43,6 +44,17 @@
         </button>
         <ul class="dropdown-menu" id="dropdown-menu"></ul>
       </div>
+      <div id="instructions-container">
+        <ol id="instructions"></ol>
+        <p class="iconNotes">
+          <ol>
+            <li>Enter a starting point and destination.</li>
+            <li>After entering a destination, your route will appear on the map along with icons representing the weather along the way.</li>
+            <li>Clicking on a weather icon will display more information about the weather at that location.</li> 
+          </ol>
+        </p>
+      </div>
+    </section>
     </header>
 
     <div class="row" id="container">
@@ -54,18 +66,8 @@
           type="text/css"
         />
         <div class="mapStyle" id="map"></div>
-        <div id="route-instructions-container">
-          <ol id="route-instructions"></ol>
-          <p class="iconNotes">
-            <ol>
-              <li>Enter a starting point and destination.</li>
-              <li>After entering a destination, your route will appear on the map along with icons representing the weather along the way.</li>
-              <li>Clicking on a weather icon will display more information about the weather at that location.</li> 
-            </ol>
-          </p>
-        </div>
       </section>
-      <div class="col-lg-4" id="mapTest"></div>
+      <div class="col-lg-4" id="route-instructions"></div>
     </div>
 
     <div id="weatherModal" class="modal">
@@ -99,15 +101,6 @@
         </div>
       </div>
     </div>
-
-    <footer class="container-fluid p-3" id="footer">
-      <span id="socialMedia">
-        <a href="https://github.com/ThePebble01/"
-          ><i class="fa-brands fa-github"></i
-        ></a>
-        <br />
-      © 2023 DU-ers, Colorado & New Mexico, USA
-    </footer>
     <script
       src="https://code.jquery.com/jquery-3.7.0.min.js"
       crossorigin="anonymous"
