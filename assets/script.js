@@ -36,7 +36,7 @@ $(function () {
 });
 
 function moveDirections() {
-  const output = $("#mapTest");
+  const output = $("#route-instructions");
   output.empty();
   const input = $(".mapboxgl-ctrl");
   output.append(input[0]);
