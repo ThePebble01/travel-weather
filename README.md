@@ -2,7 +2,7 @@
 
 ## Description
 
-Our app allows users to view a map for their road trip, with weather results for cities provided along their route. Instead of mapping out their journey and then performing separate browser searches for weather information per each location, users can now simply set their destination in Road Buddy and view the weather they will be encountering along their trip, all in one convenient place.
+This app allows users to view a map for their road trip, with weather results for cities provided along their route. Instead of mapping out their journey and then performing separate browser searches for weather information per each location, users can now simply set their destination in Road Buddy and view the weather they will be encountering along their trip.
 
 ## Usage
 
@@ -12,7 +12,7 @@ To use Road Trip Buddy, open your browser to https://dsstad.github.io/travel-wea
 
 ![Application Screenshot](images/appScreenshot.png)
 
-## Contributors
+## Initial Contributors
 
 - Derick Stadler (github.com/DSStad)
 - John Gordos (github.com/ThePebble01)
@@ -20,10 +20,10 @@ To use Road Trip Buddy, open your browser to https://dsstad.github.io/travel-wea
 - Marlena Moore (github.com/Ms-Marlena)
 - Madeline Moore (github.com/MsJamesM)
 
-## Credits
+## Resources Used
 
+Open Weather API - Used to retrieve weather data at various points along a route.
 https://openweathermap.org
 
+Mapbox API - Map UI as well as navigation.
 https://mapbox.com
-
-https://getbootstrap.com
