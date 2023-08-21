@@ -44,7 +44,6 @@ center,
 dl,
 dt,
 dd,
-ol,
 ul,
 li,
 fieldset,
@@ -103,7 +102,6 @@ section {
 body {
   line-height: 1;
 }
-ol,
 ul {
   list-style: none;
 }
