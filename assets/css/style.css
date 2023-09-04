@@ -19,14 +19,14 @@ header {
   margin-top: 1%;
 }
 
-#headerLogo {
+.header-logo {
   margin: auto;
   z-index: 1;
   display: block;
   position: relative;
   padding-top: 1%;
-  height: 290px;
-  width: 310px;
+  height: 10%;
+  width: 10%;
 }
 
 #util-container {
@@ -123,13 +123,13 @@ header {
   cursor: pointer;
 }
 
-.modalFlex {
+.modal-flex {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.modalHeaders {
+.modal-headers {
   padding-right: 4%;
   padding-left: 10%;
   text-align: center;
@@ -137,12 +137,11 @@ header {
   color: #50c8e6;
 }
 
-.modalText {
-  margin-top: 5%;
+.modal-text {
   text-align: center;
-  font-weight: normal;
   color: gray;
 }
+
 #weather-icon {
   margin-top: 5%;
 }

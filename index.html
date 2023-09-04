@@ -29,9 +29,8 @@
     <link rel="icon" type="image/x-icon" href="./images/logoDark.png" />
   </head>
   <body>
-    <header class="container-fluid p-1" id="header">
-      <img src="images/logoDark.png" id="headerLogo" />
-      <section id="util-container">
+    <header class="container-fluid p-1">
+      <img class="header-logo" src="images/logoDark.png"/>
       <div id="instructions-container">
         <ol id="instructions"></ol>
         <p class="iconNotes">
@@ -42,7 +41,6 @@
           </ol>
         </p>
       </div>
-    </section>
     </header>
     <div class="row" id="container">
       <section class="col-lg-8">
@@ -61,28 +59,25 @@
         <span class="close">&times;</span>
         <div class="modalFlex">
           <div class="temperature-container">
-            <div class="modalHeaders">
+            <div class="modal-headers">
               Current:
-              <p class="modalText" id="modTemp"></p>
+              <p class="modal-text" id="modTemp"></p>
             </div>
             <br />
-            <div class="modalHeaders">
+            <div class="modal-headers">
               Low:
-              <p class="modalText" id="modTempMin"></p>
+              <p class="modal-text" id="modTempMin"></p>
             </div>
             <br />
-            <div class="modalHeaders">
+            <div class="modal-headers">
               High:
-              <p class="modalText" id="modTempMax"></p>
+              <p class="modal-text" id="modTempMax"></p>
             </div>
             <br />
           </div>
-          <div class="modalHeaders"><img id="weather-icon" /></div>
+          <div class="modal-headers"><img id="weather-icon" /></div>
           <br />
-          <div class="modalHeaders">
-            Description
-            <p class="modalText" id="weatherDescription"></p>
-          </div>
+          <p class="modal-text" id="weatherDescription"></p>
           <br />
         </div>
       </div>
