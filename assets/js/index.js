@@ -1,5 +1,4 @@
 var weatherModalEl = $("#weatherModal");
-var searchHistoryModalEl = $("#searchHistoryModal");
 var closeModalEl = $(".close");
 var toggleColor = $("#toggle");
 
@@ -76,13 +75,13 @@ function prepareSearchHistory() {
         orginLngLatArr[1],
         orginLngLatArr[0]
       );
-      retrieveDestinationAndSaveSearch(reverseGeoOrigin);
+      retrieveDestination(reverseGeoOrigin);
     })
     .catch(function (error) {
       console.log(error);
     });
 }
-function retrieveDestinationAndSaveSearch(reverseGeoOrigin) {
+function retrieveDestination(reverseGeoOrigin) {
   var destLngLatArr = directions.getDestination().geometry.coordinates;
   fetch(
     "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
@@ -244,7 +243,7 @@ function retrieveWeatherFromLocation(lat, lon) {
           data.daily[0].temp.max
         )
       );
-      markerEl.on("click", handleMarkerModalCall);
+      markerEl.on("click", handleMarkerModalOpen);
       // Add markers to the map.
       var tweakedLon = Number.parseFloat(lon + 0.003);
       var tweakedLat = Number.parseFloat(lat + 0.003);
@@ -260,7 +259,7 @@ function handleModalClose(event) {
   event.preventDefault();
   event.target.parentNode.parentNode.style.setProperty("display", "none");
 }
-function handleMarkerModalCall(event) {
+function handleMarkerModalOpen(event) {
   weatherModalEl.css("display", "block");
   event.preventDefault();
   var weatherData = routeWeatherData.get(
@@ -276,9 +275,7 @@ function handleMarkerModalCall(event) {
   $("#modTempMax").html(weatherData.max + "°");
   $("#weatherDescription").html(weatherData.description);
 }
-
 closeModalEl.on("click", handleModalClose);
-
 window.onclick = function (event) {
   if (event.target.classList.contains("modal")) {
     event.target.style.display = "none";
