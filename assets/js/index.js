@@ -1,8 +1,3 @@
-var container = $("body");
-var header = $("#header");
-var footer = $("#footer");
-var headerLogo = $("#headerLogo");
-var mapShadow = $("#map");
 var weatherModalEl = $("#weatherModal");
 var searchHistoryModalEl = $("#searchHistoryModal");
 var closeModalEl = $(".close");
@@ -42,53 +37,6 @@ function moveDirections() {
   output.append(input[0]);
 }
 
-function handleSearchHistorySelect(event) {
-  event.preventDefault();
-  var orginDestinationNameArr = event.target.textContent.split(" - To - ");
-  var orginLat = Number.parseFloat(event.target.dataset.orginlat);
-  var orginLng = Number.parseFloat(event.target.dataset.orginlng);
-  var destinationLat = Number.parseFloat(event.target.dataset.destinationlat);
-  var destinationLng = Number.parseFloat(event.target.dataset.destinationlng);
-  directions.setOrigin([orginLng, orginLat]);
-  directions.setDestination([destinationLng, destinationLat]);
-  var originInputText = $("#mapbox-directions-origin-input")[0].children[0]
-    .children[1];
-  originInputText.value = orginDestinationNameArr[0];
-  var destinationInputText = $("#mapbox-directions-destination-input")[0]
-    .children[0].children[1];
-  destinationInputText.value = orginDestinationNameArr[1];
-  searchHistoryModalEl.css("display", "none");
-}
-function handleSearchHistory(event) {
-  event.preventDefault();
-  var searchResultContainer = $("#dropdown-menu");
-  searchResultContainer.text("");
-  searchHistoryModalEl.css("display", "block");
-  var searchHistoryArr = JSON.parse(localStorage.getItem(localStorageKey));
-  if (Array.isArray(searchHistoryArr)) {
-    for (var i = 0; i < searchResultContainer[0].children; i++) {
-      searchResultContainer[0].children[i].remove();
-    }
-    for (var i = 0; i < searchHistoryArr.length; i++) {
-      var origin = searchHistoryArr[i].origin;
-      var destination = searchHistoryArr[i].destination;
-      var searchEntry = $("<li>");
-      searchEntry.addClass("modalText");
-      searchEntry.attr("data-city", origin.city);
-      searchEntry.attr("data-state", origin.state);
-      searchEntry.attr("data-orginLat", origin.lat);
-      searchEntry.attr("data-orginLng", origin.lng);
-      searchEntry.attr("data-destinationLat", destination.lat);
-      searchEntry.attr("data-destinationLng", destination.lng);
-      searchEntry.text(origin.city + " - TO - " + destination.city);
-      searchResultContainer.append(searchEntry);
-      $("li").on("click", handleSearchHistorySelect);
-    }
-  } else {
-    searchResultContainer.css("color", "white");
-    searchResultContainer.text("No search history.");
-  }
-}
 function handleRoute() {
   prepareSearchHistory();
   resetMarkers();
@@ -330,27 +278,33 @@ function handleMarkerModalCall(event) {
 }
 
 closeModalEl.on("click", handleModalClose);
-$("#searchHistoryModalBtn").on("click", handleSearchHistory);
+
 window.onclick = function (event) {
   if (event.target.classList.contains("modal")) {
     event.target.style.display = "none";
   }
 };
-function WeatherData(temp, icon, description, min, max) {
-  this.temp = temp;
-  this.icon = icon;
-  this.description = description;
-  this.min = min;
-  this.max = max;
+class WeatherData {
+  constructor(temp, icon, description, min, max) {
+    this.temp = temp;
+    this.icon = icon;
+    this.description = description;
+    this.min = min;
+    this.max = max;
+  }
 }
-function SearchGeocodeResults(origin, destination) {
-  this.origin = origin;
-  this.destination = destination;
+class SearchGeocodeResults {
+  constructor(origin, destination) {
+    this.origin = origin;
+    this.destination = destination;
+  }
 }
-function ReverseGeocodeResult(city, state, country, lat, lng) {
-  this.city = city;
-  this.state = state;
-  this.country = country;
-  this.lat = lat;
-  this.lng = lng;
+class ReverseGeocodeResult {
+  constructor(city, state, country, lat, lng) {
+    this.city = city;
+    this.state = state;
+    this.country = country;
+    this.lat = lat;
+    this.lng = lng;
+  }
 }
