@@ -25,15 +25,15 @@ $(function () {
     interactive: false,
   });
   map.addControl(directions, "top-right");
-  moveDirections();
+  moveDirectionsControl();
   directions.on("route", handleRoute);
 });
 
-function moveDirections() {
-  const output = $("#route-instructions");
-  output.empty();
-  const input = $(".mapboxgl-ctrl");
-  output.append(input[0]);
+function moveDirectionsControl() {
+  const routeInstructions = $("#routeInstructions");
+  routeInstructions.empty();
+  const mapboxControls = $(".mapboxgl-ctrl");
+  routeInstructions.append(mapboxControls[0]);
 }
 
 function handleRoute() {
@@ -265,14 +265,14 @@ function handleMarkerModalOpen(event) {
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat + latLonKeySeparator + event.target.dataset.lon
   );
-  $("#modTemp").html(weatherData.temp + "°");
-  var weatherIcon = $("#weather-icon");
+  $("#tempAvg").html(weatherData.temp + "°");
+  var weatherIcon = $("#weatherIcon");
   weatherIcon.attr(
     "src",
     "https://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png"
   );
-  $("#modTempMin").html(weatherData.min + "°");
-  $("#modTempMax").html(weatherData.max + "°");
+  $("#tempMin").html(weatherData.min + "°");
+  $("#tempMax").html(weatherData.max + "°");
   $("#weatherDescription").html(weatherData.description);
 }
 closeModalEl.on("click", handleModalClose);

@@ -33,7 +33,7 @@
       <img class="header-logo" src="images/logoDark.png"/>
       <div id="instructions-container">
         <ol id="instructions"></ol>
-        <p class="iconNotes">
+        <p class="app-instructions">
           <ol>
             <li>Enter a starting point and destination.</li>
             <li>After entering a destination, your route will appear on the map along with icons representing the weather along the way.</li>
@@ -52,32 +52,32 @@
         />
         <div class="mapStyle" id="map"></div>
       </section>
-      <div class="col-lg-4" id="route-instructions"></div>
+      <div class="col-lg-4" id="routeInstructions"></div>
     </div>
     <div id="weatherModal" class="modal">
-      <div id="modalCont" class="modal-content-dark">
-        <span class="close">&times;</span>
-        <div class="modalFlex">
-          <div class="temperature-container">
-            <div class="modal-headers">
-              Current:
-              <p class="modal-text" id="modTemp"></p>
-            </div>
-            <br />
-            <div class="modal-headers">
-              Low:
-              <p class="modal-text" id="modTempMin"></p>
-            </div>
-            <br />
-            <div class="modal-headers">
-              High:
-              <p class="modal-text" id="modTempMax"></p>
-            </div>
-            <br />
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <div class="modal-label">
+            Current:
+            <p id="tempAvg" class="modal-text"></p>
           </div>
-          <div class="modal-headers"><img id="weather-icon" /></div>
           <br />
-          <p class="modal-text" id="weatherDescription"></p>
+          <div class="modal-label">
+            Low:
+            <p id="tempMin" class="modal-text"></p>
+          </div>
+          <br />
+          <div class="modal-label">
+            High:
+            <p id="tempMax" class="modal-text"></p>
+          </div>
+          <br />
+        </div>
+        <div class="modal-icon-container">
+          <img id="weatherIcon" />
+          <br />
+          <p id="weatherDescription" class="modal-text"></p>
           <br />
         </div>
       </div>

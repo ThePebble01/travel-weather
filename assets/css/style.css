@@ -29,69 +29,26 @@ header {
   width: 10%;
 }
 
-#util-container {
-  display: flex;
-}
-
 .row {
   margin-right: 0%;
   margin-left: 0%;
 }
 
-.iconNotes {
+.app-instructions {
   margin-left: 9%;
   margin-top: 13px;
   padding-top: 2px;
-}
-
-.mapStyle {
-  width: 60vw;
-  height: 72vh;
-  margin-left: 3%;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
 }
 
 .modal {
   display: none;
   position: fixed;
   z-index: 2;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-#search-history-modal-btn {
-  background-color: #b4b4b416;
-  border-radius: 8px;
-  box-shadow: inset 0px 5px 15px rgba(72, 53, 70, 0.121),
-    inset 0px -5px 15px rgba(76, 52, 73, 0.097);
-  cursor: pointer;
-  font-family: "Source Sans Pro", sans-serif;
-  color: #939393ec;
-  border: none;
-  padding: 7px;
-  font-size: 16px;
-  text-align: center;
-}
-
-.dropdown {
-  z-index: 5;
-  width: 30%;
-  max-height: 50%;
-  padding: 1.5%;
-  margin: 0.5%;
-}
-
-.dropdown-menu {
-  background: rgb(27, 27, 27);
-  color: rgba(151, 151, 151, 0.882);
-  box-shadow: 0 4px 6px 0 rgba(5, 5, 5, 0.68);
-  padding: 1%;
-}
-
-.modal-content-dark {
+.modal-content {
   background-color: black;
   margin: 15% auto;
   padding: 20px;
@@ -101,10 +58,9 @@ header {
   font-size: 17px;
   color: #3a3a3a;
   max-width: 30%;
-  height: 40%;
 }
 
-.temperature-container {
+.modal-header {
   display: flex;
 }
 
@@ -113,23 +69,16 @@ header {
   float: right;
   font-size: 28px;
   font-weight: bold;
-  margin-bottom: 5%;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
 }
 
-.modal-flex {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.modal-headers {
+.modal-label {
   padding-right: 4%;
   padding-left: 10%;
   text-align: center;
@@ -142,61 +91,66 @@ header {
   color: gray;
 }
 
-#weather-icon {
-  margin-top: 5%;
+.modal-icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+#weatherIcon {
+  margin-top: 5%;
+  width: 20%;
+}
+
+/* --------------------- Mapbox Style Overrides ----------------- */
+.mapbox-directions-component,
+.mapbox-directions-inputs {
+  width: 30vw;
+}
+
+.mapStyle {
+  width: 60vw;
+  height: 72vh;
+  margin-left: 3%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(255, 235, 235, 0.703);
+}
+/* --------------------- Mapbox Style Overrides End ----------------- */
 
 /* --------------------- MEDIA QUERIES ----------------- */
 
-@media screen and (max-width: 767px) {
-  body {
-    font-size: 16px;
+@media screen and (max-width: 926px) {
+  .modal-content {
+    height: 60vh;
   }
 
+  .app-instructions {
+    margin-left: 16px;
+    margin-top: 13px;
+    padding-left: 18%;
+    padding-top: 2px;
+  }
+
+  .modal-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-logo {
+    margin: auto;
+    z-index: 1;
+    display: block;
+    position: relative;
+    padding-top: 1%;
+    height: 120px;
+    width: 141px;
+  }
+
+  /* --------------------- Mapbox Style Overrides ----------------- */
   .mapStyle {
     width: 100%;
     height: 300px;
     margin-left: 0;
-  }
-  .toggle {
-    width: 60px;
-    height: 24px;
-    margin-top: -1%;
-    margin-right: 12%;
-  }
-
-  .toggleIconSun {
-    display: inline-block;
-    margin-left: -162%;
-    font-size: 20px;
-    line-height: 26px;
-    color: #555;
-    transition: opacity 0.3s ease;
-  }
-
-  .toggleIconMoon {
-    display: inline-block;
-    margin-left: -12%;
-    font-size: 20px;
-    line-height: 26px;
-    color: #555;
-    transition: opacity 0.3s ease;
-  }
-
-  label:after {
-    width: 21.6px;
-    height: 21.6px;
-    top: 1.3px;
-  }
-
-  .switchBoxChecked:after {
-    left: 58.2px;
-    transform: translateX(-100%);
-    background: linear-gradient(180deg, #777, #3a3a3a);
-  }
-
-  label:active:after {
-    width: 23px;
   }
 
   .mapbox-directions-component,
@@ -205,13 +159,8 @@ header {
     margin: 9%;
   }
 
-  .directions-control.directions-control-directions {
-    background: rgba(0, 0, 0, 0.75);
-    margin: 11px 0 0;
-    color: #fff;
-    width: 96vw;
-    height: 38vh;
-    border-radius: 8px;
+  .directions-control-instructions {
+    width: 90vw;
   }
 
   .mapbox-directions-route-summary {
@@ -225,73 +174,5 @@ header {
     font-size: 15px;
     line-height: 28px;
   }
-
-  .iconNotes {
-    margin-left: 16px;
-    margin-top: 13px;
-    padding-left: 18%;
-    padding-top: 2px;
-  }
-
-  .temperature-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    box-shadow: 0 4px 6px 0 rgba(46, 0, 35, 0.68);
-    border-radius: 33px;
-    font-size: 17px;
-    color: #3a3a3a;
-    max-width: 30%;
-    height: 58%;
-  }
-
-  #headerLogo {
-    margin: auto;
-    z-index: 1;
-    display: block;
-    position: relative;
-    padding-top: 1%;
-    height: 120px;
-    width: 141px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .toggle {
-    width: 70px;
-    height: 27px;
-    margin-top: 2%;
-    margin-right: 10%;
-  }
-
-  .switchBoxChecked:after {
-    left: 68.2px;
-    transform: translateX(-100%);
-    background: linear-gradient(180deg, #777, #3a3a3a);
-  }
-
-  label:after {
-    width: 24px;
-    height: 24px;
-  }
-
-  label:active:after {
-    width: 28px;
-  }
-
-  #headerLogo {
-    margin: auto;
-    z-index: 1;
-    display: block;
-    position: relative;
-    padding-top: 1%;
-    height: 152px;
-    width: 161px;
-  }
+  /* --------------------- Mapbox Style Overrides End ----------------- */
 }
