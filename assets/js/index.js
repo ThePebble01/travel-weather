@@ -1,3 +1,5 @@
+//make use of async await
+
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
 
@@ -28,7 +30,6 @@ function moveDirectionsControl() {
 }
 
 function handleRoute() {
-  prepareSearchHistory();
   resetMarkers();
   var steps = $(".mapbox-directions-step");
   var routeDistance = $(".mapbox-directions-route-summary")[0].children[1]
@@ -43,74 +44,9 @@ function handleRoute() {
     routeCoordinates
   );
   for (var j = 0; j < routeCoordinates.length; j++) {
+    // break down function, consider changing param to an array
     retrieveWeatherFromLocation(routeCoordinates[j][0], routeCoordinates[j][1]);
   }
-}
-function prepareSearchHistory() {
-  var orginLngLatArr = directions.getOrigin().geometry.coordinates;
-  fetch(
-    "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
-      orginLngLatArr[1] +
-      "&lon=" +
-      orginLngLatArr[0] +
-      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      var reverseGeoOrigin = new ReverseGeocodeResult(
-        data[0].name,
-        data[0].state,
-        data[0].country,
-        orginLngLatArr[1],
-        orginLngLatArr[0]
-      );
-      retrieveDestination(reverseGeoOrigin);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-function retrieveDestination(reverseGeoOrigin) {
-  var destLngLatArr = directions.getDestination().geometry.coordinates;
-  fetch(
-    "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
-      destLngLatArr[1] +
-      "&lon=" +
-      destLngLatArr[0] +
-      "&appid=b8fc387331c767a99a233c98e09002f5&units=imperial"
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      var searchHistoryArr = [];
-      var reverseGeoDest = new ReverseGeocodeResult(
-        data[0].name,
-        data[0].state,
-        data[0].country,
-        destLngLatArr[1],
-        destLngLatArr[0]
-      );
-      var searchHistory = new SearchGeocodeResults(
-        reverseGeoOrigin,
-        reverseGeoDest
-      );
-      searchHistoryArr = JSON.parse(
-        localStorage.getItem(localStorageKey) //make global var
-      );
-      if (Array.isArray(searchHistoryArr)) {
-        searchHistoryArr.push(searchHistory);
-      } else {
-        searchHistoryArr = [];
-        searchHistoryArr.push(searchHistory);
-      }
-      localStorage.setItem(localStorageKey, JSON.stringify(searchHistoryArr));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
 }
 function resetMarkers() {
   var markers = $("div[data-marker]");
@@ -196,6 +132,7 @@ function appendCoordinatesForStepsWithLargeDistance(routeLength, coordinates) {
 function calculateEuclideanDistance(x1, y1, x2, y2) {
   return Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5);
 }
+//review api documentation to see if this can be bulkified....
 function retrieveWeatherFromLocation(lat, lon) {
   fetch(
     "https://api.openweathermap.org/data/3.0/onecall?lat=" +
@@ -208,7 +145,7 @@ function retrieveWeatherFromLocation(lat, lon) {
       return response.json();
     })
     .then(function (data) {
-      var weatherToday = data.current;
+      var weatherToday = data.current; // return this, pass data to buildMarker f()
       var markerEl = $("<div>");
       markerEl.css(
         "backgroundImage",
@@ -216,14 +153,14 @@ function retrieveWeatherFromLocation(lat, lon) {
           weatherToday.weather[0].icon.replace("n", "d") +
           '@2x.png")'
       );
-      markerEl.css("width", 40);
-      markerEl.css("height", 40);
-      markerEl.css("backgroundSize", "100%");
-      markerEl.attr("data-marker", "true");
-      markerEl.attr("data-lat", lat);
-      markerEl.attr("data-lon", lon);
-      markerEl.attr("data-toggle", "modal");
-      markerEl.attr("data-target", "#exampleModal");
+      markerEl.css({ width: 40, height: 40, backgroundSize: "100%" });
+      markerEl.attr({
+        "data-marker": "true",
+        "data-lat": lat,
+        "data-lon": lon,
+        "data-toggle": "modal",
+        "data-target": "#exampleModal",
+      });
       routeWeatherData.set(
         lat + latLonKeySeparator + lon,
         new WeatherData(
