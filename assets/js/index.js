@@ -1,33 +1,24 @@
-var weatherModalEl = $("#weatherModal");
-var closeModalEl = $(".close");
-var toggleColor = $("#toggle");
-
-var directions;
-var map = {};
 var routeWeatherData = new Map();
 var latLonKeySeparator = ",";
-var localStorageKey = "travelBuddySearchHistory";
 
-$(function () {
-  mapboxgl.accessToken =
-    "pk.eyJ1IjoiZHNzdGFkMDIiLCJhIjoiY2xpYnl1b3VjMGZ0ZDNwbjFxbmR3ejdqcSJ9.3mwOKhxYibQ9YZdqNZHErQ";
-  map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/streets-v12",
-    center: [-104.9903, 39.7392],
-    zoom: 12,
-  });
-  directions = new MapboxDirections({
-    accessToken: mapboxgl.accessToken,
-    unit: "imperial",
-    profile: "mapbox/driving",
-    routePadding: 10,
-    interactive: false,
-  });
-  map.addControl(directions, "top-right");
-  moveDirectionsControl();
-  directions.on("route", handleRoute);
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiZHNzdGFkMDIiLCJhIjoiY2xpYnl1b3VjMGZ0ZDNwbjFxbmR3ejdqcSJ9.3mwOKhxYibQ9YZdqNZHErQ";
+const map = new mapboxgl.Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/streets-v12",
+  center: [-104.9903, 39.7392],
+  zoom: 12,
 });
+const directions = new MapboxDirections({
+  accessToken: mapboxgl.accessToken,
+  unit: "imperial",
+  profile: "mapbox/driving",
+  routePadding: 10,
+  interactive: false,
+});
+map.addControl(directions, "top-right");
+moveDirectionsControl();
+directions.on("route", handleRoute);
 
 function moveDirectionsControl() {
   const routeInstructions = $("#routeInstructions");
@@ -260,7 +251,7 @@ function handleModalClose(event) {
   event.target.parentNode.parentNode.style.setProperty("display", "none");
 }
 function handleMarkerModalOpen(event) {
-  weatherModalEl.css("display", "block");
+  $("#weatherModal").css("display", "block");
   event.preventDefault();
   var weatherData = routeWeatherData.get(
     event.target.dataset.lat + latLonKeySeparator + event.target.dataset.lon
@@ -275,7 +266,7 @@ function handleMarkerModalOpen(event) {
   $("#tempMax").html(weatherData.max + "°");
   $("#weatherDescription").html(weatherData.description);
 }
-closeModalEl.on("click", handleModalClose);
+$(".close").on("click", handleModalClose);
 window.onclick = function (event) {
   if (event.target.classList.contains("modal")) {
     event.target.style.display = "none";
