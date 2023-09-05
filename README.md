@@ -15,7 +15,7 @@ NA
 
 ## Usage
 
-To use Road Trip Buddy, open your browser to https://thepebble01.github.io/travel-weather/. Begin by entering your trip's starting and ending locations in input fields A and B to the right of the map. To change your desired mode of transportation, select between <i>Traffic</i>, <i>Driving</i>, <i>Walking</i>, or <i>Cycling</i> in the list above the input fields. You will see your route appear on the map. Click the various weather icons along your route to view extended weather details in each location. To switch between the app's dark and light modes, simply use the toggle button at the top right of the page.
+To use Road Trip Buddy, open your browser to https://thepebble01.github.io/travel-weather/. Begin by entering your trip's starting and ending locations in input fields A and B to the right of the map. To change your desired mode of transportation, select between <i>Traffic</i>, <i>Driving</i>, <i>Walking</i>, or <i>Cycling</i> in the list above the input fields. You will see your route appear on the map. Click the various weather icons along your route to view extended weather details in each location.
 
 ## Screenshot
 
