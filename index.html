@@ -24,7 +24,13 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
       rel="stylesheet"
     />
+    <link
+          rel="stylesheet"
+          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css"
+          type="text/css"
+        />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
     <title>RoadTrip Buddy</title>
     <link rel="icon" type="image/x-icon" href="./images/logoDark.png" />
   </head>
@@ -43,13 +49,7 @@
       </div>
     </header>
     <div class="row" id="container">
-      <section class="col-lg-8">
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
-        <link
-          rel="stylesheet"
-          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css"
-          type="text/css"
-        />
+      <section class="col-lg-8">        
         <div class="mapStyle" id="map"></div>
       </section>
       <div class="col-lg-4" id="routeInstructions"></div>
