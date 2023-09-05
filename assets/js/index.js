@@ -248,7 +248,7 @@ function retrieveWeatherFromLocation(lat, lon) {
 }
 function handleModalClose(event) {
   event.preventDefault();
-  event.target.parentNode.parentNode.style.setProperty("display", "none");
+  $("#weatherModal").css("display", "none");
 }
 function handleMarkerModalOpen(event) {
   $("#weatherModal").css("display", "block");
